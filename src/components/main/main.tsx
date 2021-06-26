@@ -14,7 +14,7 @@ export const Main = () => {
             <Route path={'/registration'} render={() => <Registration/>}/>
             <Route path={'/login'} render={() => <Login/>}/>
             <Route path={'/resetpassword'} render={() => <ResetPassword/>}/>
-            <Route path={'/addnewpassword'} render={() => <AddNewPassword/>}/>
+            <Route path={'/addnewpassword/:resetPasswordToken'} render={() => <AddNewPassword/>}/>
             <Route path={'/profile'} render={() =>  <Profile/>}/>
             <Route exact path={'/'} render={() => <Test/>}/>
             <Route path={'/404'} render={() => <NotFound/>}/>
