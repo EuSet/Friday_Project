@@ -1,10 +1,10 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../../redux/store";
-import {forgotPasswordThunk, isSentInstructions, setError} from "../../../redux/auth-reducer/reset-reducer";
+import {forgotPasswordThunk, setError} from "../../../redux/auth-reducer/reset-reducer";
 import {Redirect} from "react-router-dom";
 import {Preloader} from "../../common/preloader/Preloader";
-import SuperButton from "../../common/c2-SuperButton/SuperButton";
+import r from "./resetPassword.module.css"
 
 export const ResetPassword = () => {
     const dispatch = useDispatch()
@@ -13,44 +13,53 @@ export const ResetPassword = () => {
     const isLoader = useSelector<AppRootState, boolean>(state => state.reset.isLoader)
     const [email, setEmail] = useState('')
     const [remember, setRemember] = useState(false)
-    const forgotPassword = (text:string) => {
+    const forgotPassword = (text: string) => {
         dispatch(forgotPasswordThunk(text))
     }
-    if(remember){
+    const changeIsSent = useCallback(() => {
+        dispatch(setError(''))
+    }, [dispatch])
+
+    useEffect(() => {
+        return () => changeIsSent()
+    }, [changeIsSent])
+
+    if (remember) {
         return <Redirect to={'/login'}/>
     }
-    if(isSent){
-        return <CheckEmailComponent email={email}/>
+    if (isSent) {
+        return <Redirect to={'/addnewpassword/:resetPasswordToken'}/>
     }
 
-    return <div>
-        {error && <span style={{color:'red'}}>{error}</span>}<br/>
-        <span>Forgot your password?</span> <br/>
-        <input value={email} onChange={(e) => {
-            setEmail(e.target.value)
-            dispatch(setError(''))
-        }} type="email" placeholder={'email'}/><br/>
-        <span>Enter your email address and we willsend you <br/>
-        further instructions</span><br/>
-        {isLoader ? <Preloader/> :
-        <SuperButton title={'Send'} onClick={() => forgotPassword(email)}/>}<br/>
-        <span>Did you remember your password?</span><br/>
-        <SuperButton title={'Try logging in'} onClick={() => {setRemember(true)}}/>
-     </div>
-}
-type CheckPropsType = {
-    email:string
-}
-export const CheckEmailComponent = (props:CheckPropsType) => {
-    const dispatch = useDispatch()
-    const changeIsSent = useCallback(() => {
-        dispatch(isSentInstructions(false))
-    }, [dispatch])
-    useEffect(() => {
-       return () =>  changeIsSent()
-    }, [changeIsSent])
-    return <div>
-        <span>Check Email</span><br/>
-        <span>We sent an Email with instructions to {props.email}</span>
+    return <div className={r.container}>
+        <div className={r.main}>
+            <h3>Forgot your password?</h3>
+            {error && <span className={r.error}>{error}</span>}
+            <input value={email} onChange={(e) => {
+                setEmail(e.target.value)
+                dispatch(setError(''))
+            }} type="email" placeholder={'email'}/>
+            <div className={r.textWrap}>
+        <span>Enter your email address and we willsend you
+        further instructions</span>
+            </div>
+            <div className={r.btnWrap}>
+                {isLoader ? <div><Preloader/></div> :
+                    <button onClick={() => forgotPassword(email)}><span>Send instructions</span></button>
+                }
+            </div>
+            <div className={r.footer}>
+                <div className={r.textWrap}>
+                    <span>Did you remember your password?</span><br/>
+                </div>
+                <div className={r.btnFooterWrap}>
+                    <button onClick={() => {
+                        setRemember(true)
+                    }}>Try logging in
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 }
+
