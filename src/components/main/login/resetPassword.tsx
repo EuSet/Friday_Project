@@ -55,7 +55,7 @@ export const ResetPassword = () => {
                 <div className={r.btnFooterWrap}>
                     <button onClick={() => {
                         setRemember(true)
-                    }}>Try logging in
+                    }}><span>Try logging in</span>
                     </button>
                 </div>
             </div>

@@ -13,6 +13,7 @@ export const AddNewPassword = () => {
     const isCreate = useSelector<AppRootState, boolean>(state => state.reset.isCreate)
     const isLoader = useSelector<AppRootState, boolean>(state => state.reset.isLoader)
     const error = useSelector<AppRootState, string>(state => state.reset.error)
+    console.log(error)
     if (isCreate) {
         return <Redirect to={'/login'}/>
     }
