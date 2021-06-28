@@ -1,4 +1,4 @@
-import React, {ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, KeyboardEvent} from 'react'
+import React, { ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, KeyboardEvent } from 'react'
 import s from './SuperInputText.module.css'
 
 // тип пропсов обычного инпута
@@ -9,8 +9,8 @@ type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElem
 type SuperInputTextPropsType = DefaultInputPropsType & { // и + ещё пропсы которых нет в стандартном инпуте
     onChangeText?: (value: string) => void
     onEnter?: () => void
-    error?: string
-    setError?: (value:string) => void
+    error?: string 
+    setError?: (value: string ) => void    // поменял для проверки @Suan
     spanClassName?: string
 }
 
@@ -22,14 +22,13 @@ const SuperInputText: React.FC<SuperInputTextPropsType> = (
         error,
         setError,
         className, spanClassName,
-
         ...restProps// все остальные пропсы попадут в объект restProps
     }
 ) => {
     const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
         setError && setError('')
         onChange // если есть пропс onChange
-        && onChange(e) // то передать ему е (поскольку onChange не обязателен)
+            && onChange(e) // то передать ему е (поскольку onChange не обязателен)
 
         onChangeText && onChangeText(e.currentTarget.value)
     }
@@ -37,31 +36,30 @@ const SuperInputText: React.FC<SuperInputTextPropsType> = (
         onKeyPress && onKeyPress(e);
 
         onEnter // если есть пропс onEnter
-        && e.key === 'Enter' // и если нажата кнопка Enter
-        && onEnter() // то вызвать его
+            && e.key === 'Enter' // и если нажата кнопка Enter
+            && onEnter() // то вызвать его
     }
 
     const finalSpanClassName = `${s.error} ${spanClassName ? spanClassName : ''}`
-    const finalInputClassName = `${className} ${ error ? s.errorInput : s.superInput}` // need to fix with (?:) and s.superInput
+    const finalInputClassName = `${className} ${error ? s.errorInput : s.superInput}` // need to fix with (?:) and s.superInput
 
     return (
         <>
             <div className={s.wrap}>
                 <input
-                    type={'text'}
+                    type={type ? type : 'text'}
                     onChange={onChangeCallback}
                     onKeyPress={onKeyPressCallback}
                     className={finalInputClassName}
-
                     {...restProps} // отдаём инпуту остальные пропсы если они есть (value например там внутри)
                 />
                 <span className={s.focusBorder}>
-            	<i></i>
-            </span>
+                    <i></i>
+                </span>
             </div>
-           <div>
-               {error && <span className={finalSpanClassName}>{error}</span>}
-           </div>
+            <div>
+                {error && <span className={finalSpanClassName}>{error}</span>}
+            </div>
 
         </>
     )
