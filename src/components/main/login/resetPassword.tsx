@@ -28,7 +28,7 @@ export const ResetPassword = () => {
         return <Redirect to={'/login'}/>
     }
     if (isSent) {
-        return <Redirect to={'/addnewpassword/:resetPasswordToken'}/>
+        return <Redirect to={'/set-new-password/:resetPasswordToken'}/>
     }
 
     return <div className={r.container}>

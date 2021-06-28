@@ -7,7 +7,7 @@ export const Header = () => {
         <NavLink to={'/registration'}><SuperButton title={'registration'}/></NavLink>
         <NavLink to={'/login'}><SuperButton title={'login'}/></NavLink>
         <NavLink to={'/resetpassword'}><SuperButton title={'resetPass'}/></NavLink>
-        <NavLink to={'/addnewpassword/:resetPasswordToken'}><SuperButton title={'newPass'}/></NavLink>
+        <NavLink to={'/set-new-password/:resetPasswordToken'}><SuperButton title={'newPass'}/></NavLink>
         <NavLink to={'/profile'}><SuperButton title={'profile'}/></NavLink>
         <NavLink to={'/'}><SuperButton title={'test'}/></NavLink>
     </div>
