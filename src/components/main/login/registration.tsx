@@ -1,9 +1,9 @@
-import { useFormik } from 'formik';
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import {useFormik} from 'formik';
+import React from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { singUp } from '../../../redux/auth-reducer/auth-reducer';
-import { AppRootState } from '../../../redux/store';
+import {singUp} from '../../../redux/auth-reducer/auth-reducer';
+import {AppRootState} from '../../../redux/store';
 import SuperInputText from '../../common/c1-SuperInputText/SuperInputText';
 import SuperButton from '../../common/c2-SuperButton/SuperButton';
 
@@ -51,10 +51,9 @@ export const Registration = () => {
 
 
 
-    // убрал чтобы допилить валидацию
-    // if (isRegistered) { 
-    //     return <Redirect to={'/login'} />
-    // }
+    if (isRegistered) {
+        return <Redirect to={'/login'} />
+    }
 
     return (
         <div>
