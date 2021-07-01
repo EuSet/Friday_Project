@@ -6,6 +6,7 @@ type PropsType = {
     email:string
 }
 export const CheckEmail = (props:PropsType) => {
+    console.log(props.email)
     return <div className={r.container}>
         <div style={{display:'flex', flexDirection:'column', justifyContent:'center'}} className={r.main}>
                 <div style={{}} className={r.textWrap}>

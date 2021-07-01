@@ -4,7 +4,6 @@ import {AppRootState} from "../../app/store";
 import {useDispatch, useSelector} from "react-redux";
 import {useFormik} from "formik";
 import {RequestStatusType} from "../../app/app-reducer";
-import {emailValidation, passwordValidation} from "../../components/common/utills/Validation";
 import {NavLink, Redirect} from "react-router-dom";
 import {loginTC} from "./login-reducer";
 import {errorSpan} from "../../components/common/utills/SpanError";
@@ -35,8 +34,16 @@ export const Login = () => {
         },
         validate: (values) => {
             const errors: FormErrorType = {};
-            errors.email = emailValidation(values, errors.email)
-            errors.password = passwordValidation(values, errors.password)
+            if (!values.email) {
+                errors.email = 'Required';
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                errors.email = 'Invalid email address'
+            }
+            if (!values.password) {
+                errors.password = 'Required';
+            } else if (values.password.length < 7) {
+                errors.password = 'Must be 7 characters at least';
+            }
             return errors;
         },
         onSubmit: values => {

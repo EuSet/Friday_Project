@@ -1,16 +1,15 @@
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Redirect} from "react-router-dom";
-import {Preloader} from "../../components/common/preloader/Preloader";
 import {RoutePath} from "../../components/main/main";
 import {useCleanUp} from "../../components/common/utills/CustomHook";
 import {AppRootState} from "../../app/store";
-import {forgotPasswordThunk, setError} from "./reset-reducer";
+import {forgotPasswordThunk, isSentInstructions, setError} from "./reset-reducer";
 import {useFormik} from "formik";
-import {emailValidation} from "../../components/common/utills/Validation";
 import {CheckEmail} from "../../components/common/CheckEmailComponent/CheckEmail";
 import {errorSpan} from "../../components/common/utills/SpanError";
 import r from "./ResetPassword.module.css"
+import {Preloader} from "../../components/common/preloader/Preloader";
 
 
 type FormErrorType = {
@@ -22,8 +21,9 @@ export const ResetPassword = () => {
     const error = useSelector<AppRootState, string>(state => state.reset.error)
     const isLoader = useSelector<AppRootState, boolean>(state => state.reset.isLoader)
     const [remember, setRemember] = useState(false)
-
+    const [email, setEmail] = useState('')
     useCleanUp(setError(''))
+    useCleanUp(isSentInstructions(false))
 
     const formik = useFormik({
         initialValues:{
@@ -31,13 +31,18 @@ export const ResetPassword = () => {
         },
         validate:(values) => {
             const errors: FormErrorType = {}
-            errors.email = emailValidation(values, errors.email)
+            if (!values.email) {
+                errors.email = 'Required';
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                errors.email = 'Invalid email address'
+            }
             return errors
         },
         onSubmit: values => {
             formik.resetForm()
+            setEmail(formik.values.email)
             dispatch(forgotPasswordThunk(values.email))
-            setRemember(true)
+
         }
     })
 
@@ -45,7 +50,7 @@ export const ResetPassword = () => {
         return <Redirect to={RoutePath.LOGIN} />
     }
     if (isSent) {
-        return <CheckEmail email={formik.values.email}/>
+        return <CheckEmail email={email}/>
     }
 
     return <div className={r.container}>
@@ -61,16 +66,18 @@ export const ResetPassword = () => {
         further instructions</span>
             </div>
             <div className={r.btnWrap}>
-                {/*{isLoader ? <div><Preloader/></div> :*/}
+                {isLoader ? <div><Preloader/></div> :
                     <button><span>Send instructions</span></button>
-                {/*}*/}
+                }
             </div>
             <div className={r.footer}>
                 <div className={r.textWrap}>
                     <span>Did you remember your password?</span><br/>
                 </div>
                 <div className={r.btnFooterWrap}>
-                    <button><span>Try logging in</span>
+                    <button onClick={() => {
+                        setRemember(true)
+                    }}><span>Try logging in</span>
                     </button>
                 </div>
             </div>

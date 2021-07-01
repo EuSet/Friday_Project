@@ -8,14 +8,12 @@ import SuperButton from '../../components/common/c2-SuperButton/SuperButton';
 import {RoutePath} from '../../components/main/main';
 import {RequestStatusType} from '../../app/app-reducer';
 import {Preloader} from '../../components/common/preloader/Preloader';
-import {checkPasswordValidation, emailValidation, passwordValidation} from "../../components/common/utills/Validation";
 import {singUp} from "./registration-reducer";
 
 
 export const Registration = () => {
     const dispatch = useDispatch()
     const isLoading = useSelector<AppRootState, RequestStatusType>(state => state.app.status)
-    //formik
     type FormErrorType = {
         email?: string
         password?: string
@@ -29,9 +27,21 @@ export const Registration = () => {
         },
         validate: (values) => {
             const errors: FormErrorType = {};
-            errors.email = emailValidation(values, errors.email)
-            errors.password = passwordValidation(values, errors.password)
-            errors.checkPassword = checkPasswordValidation(values, errors.checkPassword)
+            if (!values.email) {
+                errors.email = 'Required';
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                errors.email = 'Invalid email address'
+            }
+            if (!values.password) {
+                errors.password = 'Required';
+            } else if (values.password.length < 7) {
+                errors.password = 'Must be 7 characters at least';
+            }
+            if (!values.checkPassword) {
+                errors.checkPassword = 'Required';
+            } else if (values.checkPassword !== values.password) {
+                errors.checkPassword = 'Passwords should be equal';
+            }
             return errors;
         },
         onSubmit: values => {

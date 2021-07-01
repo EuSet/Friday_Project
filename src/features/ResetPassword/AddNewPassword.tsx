@@ -7,7 +7,6 @@ import {RoutePath} from "../../components/main/main";
 import {AppRootState} from "../../app/store";
 import {useCleanUp} from "../../components/common/utills/CustomHook";
 import {useFormik} from "formik";
-import {passwordValidation} from "../../components/common/utills/Validation";
 import {errorSpan} from "../../components/common/utills/SpanError";
 import {Preloader} from "../../components/common/preloader/Preloader";
 
@@ -29,7 +28,11 @@ export const AddNewPassword = () => {
         },
         validate:(values) => {
             const errors: FormErrorType = {}
-            errors.password = passwordValidation(values, errors.password)
+            if (!values.password) {
+                errors.password = 'Required';
+            } else if (values.password.length < 7) {
+                errors.password = 'Must be 7 characters at least';
+            }
             return errors;
         },
         onSubmit: values => {
