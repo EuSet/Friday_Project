@@ -6,6 +6,8 @@ import {singUp} from '../../../redux/auth-reducer/auth-reducer';
 import {AppRootState} from '../../../redux/store';
 import SuperInputText from '../../common/c1-SuperInputText/SuperInputText';
 import SuperButton from '../../common/c2-SuperButton/SuperButton';
+import c from '../../common/commonStyle/commonStyle.module.css'
+
 
 export const Registration = () => {
     const dispatch = useDispatch()
@@ -56,8 +58,10 @@ export const Registration = () => {
     }
 
     return (
-        <div>
-            <form onSubmit={formik.handleSubmit}>
+        <div className={c.wrap}>
+
+            <form onSubmit={formik.handleSubmit} className={c.formBlock}>
+                <h3>Registration</h3>
                 <SuperInputText
                     placeholder={'Email'}
                     {...formik.getFieldProps('email')}

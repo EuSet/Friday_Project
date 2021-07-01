@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './App.css';
 import { HashRouter } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -13,7 +13,7 @@ function App() {
     <div className="App">
       <Provider store={store}>
       <HashRouter>
-        <Header/>
+       <Header/>
         <Main/>
       </HashRouter>
       </Provider>

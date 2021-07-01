@@ -2,9 +2,12 @@ import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../../redux/store";
 import {forgotPasswordThunk, setError} from "../../../redux/auth-reducer/reset-reducer";
-import {Redirect} from "react-router-dom";
+import {NavLink, Redirect} from "react-router-dom";
 import {Preloader} from "../../common/preloader/Preloader";
-import r from "./resetPassword.module.css"
+import c from '../../common/commonStyle/commonStyle.module.css'
+import SuperInputText from "../../common/c1-SuperInputText/SuperInputText";
+import SuperButton from "../../common/c2-SuperButton/SuperButton";
+
 
 export const ResetPassword = () => {
     const dispatch = useDispatch()
@@ -31,32 +34,33 @@ export const ResetPassword = () => {
         return <Redirect to={'/set-new-password/:resetPasswordToken'}/>
     }
 
-    return <div className={r.container}>
-        <div className={r.main}>
+    return <div className={c.wrap}>
+        <div className={c.formBlock}>
             <h3>Forgot your password?</h3>
-            {error && <span className={r.error}>{error}</span>}
-            <input value={email} onChange={(e) => {
+            {error && <span className={c.error}>{error}</span>}
+            <SuperInputText value={email} onChange={(e) => {
                 setEmail(e.target.value)
                 dispatch(setError(''))
             }} type="email" placeholder={'email'}/>
-            <div className={r.textWrap}>
-        <span>Enter your email address and we willsend you
+            <div className={c.textWrap}>
+        <span>Enter your email address and we will send you
         further instructions</span>
             </div>
-            <div className={r.btnWrap}>
+            <div>
                 {isLoader ? <div><Preloader/></div> :
-                    <button onClick={() => forgotPassword(email)}><span>Send instructions</span></button>
+                    <SuperButton onClick={() => forgotPassword(email)} title={'Send instructions'} />/*<span>Send instructions</span></SuperButton>*/
                 }
             </div>
-            <div className={r.footer}>
-                <div className={r.textWrap}>
-                    <span>Did you remember your password?</span><br/>
+            <div>
+                <div className={c.textWrap}>
+                    <span>Did you remember your password?</span>
                 </div>
-                <div className={r.btnFooterWrap}>
-                    <button onClick={() => {
+                <div>
+                  {/*  <button onClick={() => {
                         setRemember(true)
                     }}><span>Try logging in</span>
-                    </button>
+                    </button>*/}
+                    <NavLink to={'/login'}>Try logging in</NavLink>
                 </div>
             </div>
         </div>
