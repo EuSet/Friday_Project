@@ -1,6 +1,5 @@
 import {AppThunk} from "../../app/store";
 import {resetPasswordApi} from "../../api/resetPasswordApi";
-import { setAppStatusAC } from "../../app/app-reducer";
 
 
 const IS_SENT = 'reset/IS_SENT'
@@ -49,7 +48,6 @@ export const isCreateNewPassword = (isCreate: boolean) => {
     return {type: IS_CREATE_NEW_PASSWORD, payload: {isCreate}} as const
 }
 export const forgotPasswordThunk = (email: string): AppThunk => async (dispatch) => {
-   
     try {
         dispatch(setLoader(true))
         await resetPasswordApi.sendInstructions(email)

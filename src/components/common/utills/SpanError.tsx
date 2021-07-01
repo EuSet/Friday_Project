@@ -1,4 +1,4 @@
-import r from "../../main/login/resetPassword.module.css";
+import r from "../../../features/ResetPassword/ResetPassword.module.css";
 import React from "react";
 
 export const errorSpan = (error:string) => {

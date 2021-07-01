@@ -1,19 +1,15 @@
 import React from "react";
 import {Redirect, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootState} from "../../../redux/store";
-import {createNewPasswordThunk, setError} from "../../../redux/auth-reducer/reset-reducer";
-import {Preloader} from "../../common/preloader/Preloader";
-import r from "./resetPassword.module.css";
-import {useFormik} from "formik";
-import {useCleanUp} from "../../common/utills/CustomHook";
-import {errorSpan} from "../../common/utills/SpanError";
-import {passwordValidation} from "../../common/utills/Validation";
-import {AppRootState} from "../../app/store";
 import {createNewPasswordThunk, setError} from "./reset-reducer";
-import {Preloader} from "../../components/common/preloader/Preloader";
 import r from "./ResetPassword.module.css";
-import { RoutePath } from "../../components/main/main";
+import {RoutePath} from "../../components/main/main";
+import {AppRootState} from "../../app/store";
+import {useCleanUp} from "../../components/common/utills/CustomHook";
+import {useFormik} from "formik";
+import {passwordValidation} from "../../components/common/utills/Validation";
+import {errorSpan} from "../../components/common/utills/SpanError";
+import {Preloader} from "../../components/common/preloader/Preloader";
 
 type FormErrorType = {
     password?:string

@@ -1,21 +1,16 @@
 import React from 'react';
-import { useFormik } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import { singUp } from './registration-reducer';
-import { AppRootState } from '../../app/store';
-import SuperInputText from '../../components/common/c1-SuperInputText/SuperInputText';
-import SuperButton from '../../components/common/c2-SuperButton/SuperButton';
-import { RoutePath } from '../../components/main/main';
-import { RequestStatusType } from '../../app/app-reducer';
-import { Preloader } from '../../components/common/preloader/Preloader';
+import {useFormik} from 'formik';
 import {useDispatch, useSelector} from 'react-redux';
 import {Redirect} from 'react-router-dom';
-import {singUp} from '../../../redux/auth-reducer/auth-reducer';
-import {AppRootState} from '../../../redux/store';
-import SuperInputText from '../../common/c1-SuperInputText/SuperInputText';
-import SuperButton from '../../common/c2-SuperButton/SuperButton';
-import {checkPasswordValidation, emailValidation, passwordValidation} from "../../common/utills/Validation";
+import {AppRootState} from '../../app/store';
+import SuperInputText from '../../components/common/c1-SuperInputText/SuperInputText';
+import SuperButton from '../../components/common/c2-SuperButton/SuperButton';
+import {RoutePath} from '../../components/main/main';
+import {RequestStatusType} from '../../app/app-reducer';
+import {Preloader} from '../../components/common/preloader/Preloader';
+import {checkPasswordValidation, emailValidation, passwordValidation} from "../../components/common/utills/Validation";
+import {singUp} from "./registration-reducer";
+
 
 export const Registration = () => {
     const dispatch = useDispatch()

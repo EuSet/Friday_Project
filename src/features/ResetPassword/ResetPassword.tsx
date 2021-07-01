@@ -1,23 +1,17 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppRootState } from "../../app/store";
-import { forgotPasswordThunk, setError } from "./reset-reducer";
-import { Redirect } from "react-router-dom";
-import { Preloader } from "../../components/common/preloader/Preloader";
-import r from "./ResetPassword.module.css"
-import { RoutePath } from "../../components/main/main";
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootState} from "../../../redux/store";
-import {forgotPasswordThunk, setError} from "../../../redux/auth-reducer/reset-reducer";
 import {Redirect} from "react-router-dom";
-import {Preloader} from "../../common/preloader/Preloader";
-import r from "./resetPassword.module.css"
+import {Preloader} from "../../components/common/preloader/Preloader";
+import {RoutePath} from "../../components/main/main";
+import {useCleanUp} from "../../components/common/utills/CustomHook";
+import {AppRootState} from "../../app/store";
+import {forgotPasswordThunk, setError} from "./reset-reducer";
 import {useFormik} from "formik";
-import {CheckEmail} from "../../common/CheckEmailComponent/CheckEmail";
-import {useCleanUp} from "../../common/utills/CustomHook";
-import {errorSpan} from "../../common/utills/SpanError";
-import {emailValidation} from "../../common/utills/Validation";
+import {emailValidation} from "../../components/common/utills/Validation";
+import {CheckEmail} from "../../components/common/CheckEmailComponent/CheckEmail";
+import {errorSpan} from "../../components/common/utills/SpanError";
+import r from "./ResetPassword.module.css"
+
 
 type FormErrorType = {
     email?:string
@@ -43,6 +37,7 @@ export const ResetPassword = () => {
         onSubmit: values => {
             formik.resetForm()
             dispatch(forgotPasswordThunk(values.email))
+            setRemember(true)
         }
     })
 
@@ -56,8 +51,8 @@ export const ResetPassword = () => {
     return <div className={r.container}>
         <div className={r.main}>
             <h3>Forgot your password?</h3>
-            {formik.errors.email ? errorSpan(formik.errors.email) : error && errorSpan(error)}
             <form onSubmit={formik.handleSubmit}>
+            {formik.errors.email ? errorSpan(formik.errors.email) : error && errorSpan(error)}
             <input
                 {...formik.getFieldProps('email')}
                 placeholder={'email'}/>
@@ -66,18 +61,16 @@ export const ResetPassword = () => {
         further instructions</span>
             </div>
             <div className={r.btnWrap}>
-                {isLoader ? <div><Preloader/></div> :
+                {/*{isLoader ? <div><Preloader/></div> :*/}
                     <button><span>Send instructions</span></button>
-                }
+                {/*}*/}
             </div>
             <div className={r.footer}>
                 <div className={r.textWrap}>
                     <span>Did you remember your password?</span><br/>
                 </div>
                 <div className={r.btnFooterWrap}>
-                    <button onClick={() => {
-                        setRemember(true)
-                    }}><span>Try logging in</span>
+                    <button><span>Try logging in</span>
                     </button>
                 </div>
             </div>
