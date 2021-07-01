@@ -1,15 +1,18 @@
-import {useFormik} from 'formik';
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import { useFormik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import {singUp} from '../../../redux/auth-reducer/auth-reducer';
-import {AppRootState} from '../../../redux/store';
-import SuperInputText from '../../common/c1-SuperInputText/SuperInputText';
-import SuperButton from '../../common/c2-SuperButton/SuperButton';
+import { singUp } from './registration-reducer';
+import { AppRootState } from '../../app/store';
+import SuperInputText from '../../components/common/c1-SuperInputText/SuperInputText';
+import SuperButton from '../../components/common/c2-SuperButton/SuperButton';
+import { RoutePath } from '../../components/main/main';
+import { RequestStatusType } from '../../app/app-reducer';
+import { Preloader } from '../../components/common/preloader/Preloader';
 
 export const Registration = () => {
     const dispatch = useDispatch()
-    const isRegistered = useSelector<AppRootState, string | null>(state => state.auth.userRegistrationData.email)
+    const isLoading = useSelector<AppRootState, RequestStatusType>(state => state.app.status)
     //formik
     type FormErrorType = {
         email?: string
@@ -44,15 +47,14 @@ export const Registration = () => {
         },
         onSubmit: values => {
             formik.resetForm()
-            alert(JSON.stringify(values))
             dispatch(singUp(values.email, values.password))
         },
     })
 
 
 
-    if (isRegistered) {
-        return <Redirect to={'/login'} />
+    if (isLoading === 'succeeded') {
+        return <Redirect to={RoutePath.LOGIN} />
     }
 
     return (
@@ -78,7 +80,10 @@ export const Registration = () => {
                 />
                 {formik.touched.checkPassword &&
                     formik.errors.checkPassword ? <div style={{ color: 'red' }}>{formik.errors.checkPassword}</div> : null}
-                <SuperButton type={'submit'} title={'sign up'} />
+                <div>
+                    {isLoading === 'loading' ? <Preloader /> : <SuperButton type={'submit'} title={'sign up'} />}
+                </div>
+
             </form>
         </div>
     )

@@ -1,10 +1,11 @@
 import React, {useState} from "react";
 import {Redirect, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootState} from "../../../redux/store";
-import {createNewPasswordThunk, setError} from "../../../redux/auth-reducer/reset-reducer";
-import {Preloader} from "../../common/preloader/Preloader";
-import r from "./resetPassword.module.css";
+import {AppRootState} from "../../app/store";
+import {createNewPasswordThunk, setError} from "./reset-reducer";
+import {Preloader} from "../../components/common/preloader/Preloader";
+import r from "./ResetPassword.module.css";
+import { RoutePath } from "../../components/main/main";
 
 export const AddNewPassword = () => {
     const [password, setPassword] = useState('')
@@ -15,7 +16,7 @@ export const AddNewPassword = () => {
     const error = useSelector<AppRootState, string>(state => state.reset.error)
     console.log(error)
     if (isCreate) {
-        return <Redirect to={'/login'}/>
+        return <Redirect to={RoutePath.LOGIN}/>
     }
     return <div className={r.container}>
         <div className={r.main}>

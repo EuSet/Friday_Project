@@ -1,5 +1,6 @@
 import { Dispatch } from 'redux'
 import { authAPI } from '../../api/registration-api'
+import { setAppStatusAC } from '../../app/app-reducer'
 
 export const authActions = {
   SIGN_UP: 'AUTH/SIGN_UP',
@@ -8,8 +9,8 @@ export const authActions = {
 export type AuthActionsType = signUpAT
 const initState = {
   userRegistrationData: {
-    email: ('' as string) || null,
-    password: ('' as string) || null,
+    email: '',
+    password: '' 
   },
 }
 
@@ -46,11 +47,15 @@ export const signUpAC = (emailValue: string, passwordValue: string) =>
 
 export const singUp =
   (email: string, password: string) => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     authAPI
       .registration({ email, password })
       .then(res => {
         dispatch(signUpAC(email, password))
+        dispatch(setAppStatusAC('succeeded'))
       })
-      .catch(error => alert(error))
+      .catch(error => {
+        dispatch(setAppStatusAC('failed'))
+        alert(error)
+      })
   }
-

@@ -1,10 +1,11 @@
-import React, {useCallback, useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootState} from "../../../redux/store";
-import {forgotPasswordThunk, setError} from "../../../redux/auth-reducer/reset-reducer";
-import {Redirect} from "react-router-dom";
-import {Preloader} from "../../common/preloader/Preloader";
-import r from "./resetPassword.module.css"
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppRootState } from "../../app/store";
+import { forgotPasswordThunk, setError } from "./reset-reducer";
+import { Redirect } from "react-router-dom";
+import { Preloader } from "../../components/common/preloader/Preloader";
+import r from "./ResetPassword.module.css"
+import { RoutePath } from "../../components/main/main";
 
 export const ResetPassword = () => {
     const dispatch = useDispatch()
@@ -25,10 +26,10 @@ export const ResetPassword = () => {
     }, [changeIsSent])
 
     if (remember) {
-        return <Redirect to={'/login'}/>
+        return <Redirect to={RoutePath.LOGIN} />
     }
     if (isSent) {
-        return <Redirect to={'/set-new-password/:resetPasswordToken'}/>
+        return <Redirect to={RoutePath.SET_NEW_PASSWORD} />
     }
 
     return <div className={r.container}>
@@ -38,19 +39,19 @@ export const ResetPassword = () => {
             <input value={email} onChange={(e) => {
                 setEmail(e.target.value)
                 dispatch(setError(''))
-            }} type="email" placeholder={'email'}/>
+            }} type="email" placeholder={'email'} />
             <div className={r.textWrap}>
-        <span>Enter your email address and we willsend you
-        further instructions</span>
+                <span>Enter your email address and we willsend you
+                    further instructions</span>
             </div>
             <div className={r.btnWrap}>
-                {isLoader ? <div><Preloader/></div> :
+                {isLoader ? <div><Preloader /></div> :
                     <button onClick={() => forgotPassword(email)}><span>Send instructions</span></button>
                 }
             </div>
             <div className={r.footer}>
                 <div className={r.textWrap}>
-                    <span>Did you remember your password?</span><br/>
+                    <span>Did you remember your password?</span><br />
                 </div>
                 <div className={r.btnFooterWrap}>
                     <button onClick={() => {

@@ -1,22 +1,26 @@
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootState} from "../../../redux/store";
+import {AppRootState} from "../../app/store";
 import React, {useEffect} from "react";
 import {Redirect} from "react-router-dom";
-import SuperButton from "../../common/c2-SuperButton/SuperButton";
-import {getUserDataTC, logOutTC} from "../../../redux/login-reducer/login-reducer";
+import SuperButton from "../../components/common/c2-SuperButton/SuperButton";
+import {getUserDataTC, logOutTC} from "../Login/login-reducer";
+import { RoutePath } from "../../components/main/main";
+import { RequestStatusType } from "../../app/app-reducer";
+import { Preloader } from "../../components/common/preloader/Preloader";
 
 export const Profile = () => {
     const dispatch = useDispatch()
     const isLoggedIn = useSelector<AppRootState, boolean>(state => state.login.isLoggedIn)
     const name = useSelector<AppRootState, string>(state => state.login.name)
     const avatar = useSelector<AppRootState, string>(state => state.login.avatar)
+    const isLoading = useSelector<AppRootState, RequestStatusType>(state => state.app.status)
 
     useEffect(() => {
         if (isLoggedIn) return
         dispatch(getUserDataTC())
     }, [isLoggedIn, dispatch])
 
-    if (!isLoggedIn) return <Redirect to={'/login'}/>
+    if (!isLoggedIn) return <Redirect to={RoutePath.LOGIN}/>
 
     return (
         <div>
@@ -28,10 +32,12 @@ export const Profile = () => {
                 <div/>
             <div>{name}<div/>
                 <div>
-                    <SuperButton  onClick={() => {
-                        dispatch(logOutTC())
-                    }} title={"logout"}/>
-
+                    {
+                        isLoading === 'loading' ? <Preloader /> :
+                        <SuperButton  onClick={() => {
+                            dispatch(logOutTC())
+                        }} title={"logout"}/>
+                    }
                 </div>
         </div>
         </div>

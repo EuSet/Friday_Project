@@ -1,5 +1,6 @@
+import { setAppStatusAC, SetAppStatusActionType } from './../../app/app-reducer';
 import {Dispatch} from "redux";
-import {authApi} from "../../components/main/login/loginApi";
+import {authApi} from "../../api/loginApi";
 
 
 const initialState = {
@@ -67,14 +68,14 @@ export const setUserDataAC = (name: string, isLoggedIn: boolean) => ({
 
 
 
-export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<ActionsType>) => {
-
+export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<ActionsType | SetAppStatusActionType > ) => {
+    dispatch(setAppStatusAC('loading'))
     authApi.login(data)
         .then((res) => {
               dispatch(setIsLoggedInAC(true))
               dispatch(setUserNameAC(res.data.name))
               dispatch(setUserAvatarAC(res.data.avatar))
-
+              dispatch(setAppStatusAC('succeeded'))
             }
         )
         .catch(err => {
@@ -82,14 +83,16 @@ export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<ActionsTyp
                     ? err.response.data.error
                 : (err.message + ', more details in the console');
             console.log(error)
+            dispatch(setAppStatusAC('failed'))
         })
 }
 
 export const logOutTC = () => (dispatch: Dispatch) => {
-
+    dispatch(setAppStatusAC('loading'))
     authApi.logOut()
         .then(() => {
                 dispatch(setIsLoggedInAC(false))
+                dispatch(setAppStatusAC('succeeded'))
             }
         )
         .catch(e => {
@@ -97,6 +100,7 @@ export const logOutTC = () => (dispatch: Dispatch) => {
                 ? e.response.data.error
                 : (e.message + ', more details in the console')
             console.log(error)
+            dispatch(setAppStatusAC('failed'))
         })
 }
 
