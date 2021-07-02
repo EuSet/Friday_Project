@@ -1,4 +1,3 @@
-import {useFormik} from 'formik';
 import React from 'react';
 import {useFormik} from 'formik';
 import {useDispatch, useSelector} from 'react-redux';
@@ -10,6 +9,7 @@ import {RoutePath} from '../../components/main/main';
 import {RequestStatusType} from '../../app/app-reducer';
 import {Preloader} from '../../components/common/preloader/Preloader';
 import {singUp} from "./registration-reducer";
+import c from '../../components/common/commonStyle/commonStyle.module.css'
 
 
 export const Registration = () => {
@@ -59,8 +59,11 @@ export const Registration = () => {
     }
 
     return (
-        <div>
-            <form onSubmit={formik.handleSubmit}>
+        <div className={c.wrap}>
+            <form onSubmit={formik.handleSubmit} className={c.formBlock}>
+                <div>
+                    <h3>Registration</h3>
+                </div>
                 <SuperInputText
                     placeholder={'Email'}
                     {...formik.getFieldProps('email')}

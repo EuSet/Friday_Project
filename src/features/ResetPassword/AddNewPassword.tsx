@@ -2,13 +2,15 @@ import React from "react";
 import {Redirect, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {createNewPasswordThunk, setError} from "./reset-reducer";
-import r from "./ResetPassword.module.css";
+import c from "../../components/common/commonStyle/commonStyle.module.css";
 import {RoutePath} from "../../components/main/main";
 import {AppRootState} from "../../app/store";
 import {useCleanUp} from "../../components/common/utills/CustomHook";
 import {useFormik} from "formik";
 import {errorSpan} from "../../components/common/utills/SpanError";
 import {Preloader} from "../../components/common/preloader/Preloader";
+import SuperInputText from "../../components/common/c1-SuperInputText/SuperInputText";
+import SuperButton from "../../components/common/c2-SuperButton/SuperButton";
 
 type FormErrorType = {
     password?:string
@@ -44,20 +46,20 @@ export const AddNewPassword = () => {
     if (isCreate) {
         return <Redirect to={RoutePath.LOGIN}/>
     }
-    return <div className={r.container}>
-        <div className={r.main}>
+    return <div className={c.wrap}>
+        <div className={c.formBlock}>
         <h3>Create new password</h3>
             <form onSubmit={formik.handleSubmit}>
                 {formik.errors.password ? errorSpan(formik.errors.password) : error && errorSpan(error)}
-        <input {...formik.getFieldProps('password')}
+        <SuperInputText {...formik.getFieldProps('password')}
                placeholder={'password'} type={'password'}/>
-            <div className={r.textWrap}>
+            <div className={c.textWrap}>
         <span>Create new Password and we will send you
         further instructions</span>
             </div>
-            <div className={r.btnWrap}>
+            <div>
         {isLoader ? <Preloader/> :
-            <button>Create new password</button>}
+            <SuperButton title={'Create new password'}/>}
             </div>
             </form>
         </div>
