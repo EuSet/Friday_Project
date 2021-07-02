@@ -1,13 +1,15 @@
 import React from "react";
-import {NavLink} from "react-router-dom";
+import SuperButton from "../common/c2-SuperButton/SuperButton";
+import { NavLink } from "react-router-dom";
 import h from "./header.module.css"
+import { RoutePath } from "../main/main";
 export const Header = () => {
     return <div className={h.header}>
-        <NavLink to={'/registration'} className={h.menu}>Registration</NavLink>
-        <NavLink to={'/login'} className={h.menu}>Login</NavLink>
-        <NavLink to={'/resetpassword'} className={h.menu}>Reset Password</NavLink>
-        <NavLink to={'/set-new-password/:resetPasswordToken'} className={h.menu}>New Password</NavLink>
-        <NavLink to={'/profile'} className={h.menu}>Profile</NavLink>
-        <NavLink to={'/'} className={h.menu}>Test</NavLink>
+        <NavLink to={RoutePath.REGISTRATION}><SuperButton title={'registration'} /></NavLink>
+        <NavLink to={RoutePath.LOGIN}><SuperButton title={'login'} /></NavLink>
+        <NavLink to={RoutePath.RESET_PASSWORD}><SuperButton title={'resetPass'} /></NavLink>
+        <NavLink to={RoutePath.SET_NEW_PASSWORD}><SuperButton title={'newPass'} /></NavLink>
+        <NavLink to={RoutePath.PROFILE}><SuperButton title={'profile'} /></NavLink>
+        <NavLink to={'/'}><SuperButton title={'test'} /></NavLink>
     </div>
 }

@@ -1,5 +1,5 @@
-import {AppThunk} from "../store";
-import {resetPasswordApi} from "../../components/main/login/resetPasswordApi";
+import {AppThunk} from "../../app/store";
+import {resetPasswordApi} from "../../api/resetPasswordApi";
 
 
 const IS_SENT = 'reset/IS_SENT'

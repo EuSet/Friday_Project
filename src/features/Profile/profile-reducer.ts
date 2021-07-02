@@ -1,6 +1,6 @@
-import {AppThunk} from "../store";
-import {authResponseType, profileApi} from "../../components/main/login/resetPasswordApi";
-import {setError, setLoader} from "../auth-reducer/reset-reducer";
+import {AppThunk} from "../../app/store";
+import {authResponseType, profileApi} from "../../api/resetPasswordApi";
+import {setError, setLoader} from "../ResetPassword/reset-reducer";
 const SET_AUTH_DATA = 'profile/SET_AUTH_DATA'
 export type ProfileInitialStateType = {
     id: string

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {LoginParamsType, loginResponseType} from "../../../redux/login-reducer/login-reducer";
+import {LoginParamsType, loginResponseType} from "../features/Login/login-reducer";
 
 
 const instance = axios.create({

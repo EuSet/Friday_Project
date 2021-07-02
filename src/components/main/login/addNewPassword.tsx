@@ -4,10 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../../redux/store";
 import {createNewPasswordThunk, setError} from "../../../redux/auth-reducer/reset-reducer";
 import {Preloader} from "../../common/preloader/Preloader";
-import c from '../../common/commonStyle/commonStyle.module.css'
-import SuperInputText from "../../common/c1-SuperInputText/SuperInputText";
-import SuperButton from "../../common/c2-SuperButton/SuperButton";
-
+import r from "./resetPassword.module.css";
 
 export const AddNewPassword = () => {
     const [password, setPassword] = useState('')
@@ -20,22 +17,22 @@ export const AddNewPassword = () => {
     if (isCreate) {
         return <Redirect to={'/login'}/>
     }
-    return <div className={c.wrap}>
-        <div className={c.formBlock}>
+    return <div className={r.container}>
+        <div className={r.main}>
         <h3>Create new password</h3>
-            {error && <span className={c.error}>{error}</span>}
-        <SuperInputText value={password} onChange={(e) => {
+            {error && <span className={r.error}>{error}</span>}
+        <input value={password} onChange={(e) => {
             setPassword(e.target.value)
             dispatch(setError(''))
         }} type="password" placeholder={'password'}/>
-            <div className={c.textWrap}>
+            <div className={r.textWrap}>
         <span>Create new Password and we will send you
         further instructions</span>
             </div>
-            <div>
+            <div className={r.btnWrap}>
         {isLoader ? <Preloader/> :
-            <SuperButton
-                    onClick={() => dispatch(createNewPasswordThunk(password, resetPasswordToken))} title={'Create new password'}/>}
+            <button
+                    onClick={() => dispatch(createNewPasswordThunk(password, resetPasswordToken))}>Create new password</button>}
             </div>
         </div>
     </div>

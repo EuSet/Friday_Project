@@ -1,18 +1,20 @@
 import {useFormik} from 'formik';
 import React from 'react';
+import {useFormik} from 'formik';
 import {useDispatch, useSelector} from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import {singUp} from '../../../redux/auth-reducer/auth-reducer';
-import {AppRootState} from '../../../redux/store';
-import SuperInputText from '../../common/c1-SuperInputText/SuperInputText';
-import SuperButton from '../../common/c2-SuperButton/SuperButton';
-import c from '../../common/commonStyle/commonStyle.module.css'
+import {Redirect} from 'react-router-dom';
+import {AppRootState} from '../../app/store';
+import SuperInputText from '../../components/common/c1-SuperInputText/SuperInputText';
+import SuperButton from '../../components/common/c2-SuperButton/SuperButton';
+import {RoutePath} from '../../components/main/main';
+import {RequestStatusType} from '../../app/app-reducer';
+import {Preloader} from '../../components/common/preloader/Preloader';
+import {singUp} from "./registration-reducer";
 
 
 export const Registration = () => {
     const dispatch = useDispatch()
-    const isRegistered = useSelector<AppRootState, string | null>(state => state.auth.userRegistrationData.email)
-    //formik
+    const isLoading = useSelector<AppRootState, RequestStatusType>(state => state.app.status)
     type FormErrorType = {
         email?: string
         password?: string
@@ -31,7 +33,6 @@ export const Registration = () => {
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
                 errors.email = 'Invalid email address'
             }
-
             if (!values.password) {
                 errors.password = 'Required';
             } else if (values.password.length < 7) {
@@ -53,28 +54,26 @@ export const Registration = () => {
 
 
 
-    if (isRegistered) {
-        return <Redirect to={'/login'} />
+    if (isLoading === 'succeeded') {
+        return <Redirect to={RoutePath.LOGIN} />
     }
 
     return (
-        <div className={c.wrap}>
-
-            <form onSubmit={formik.handleSubmit} className={c.formBlock}>
-                <h3>Registration</h3>
+        <div>
+            <form onSubmit={formik.handleSubmit}>
                 <SuperInputText
                     placeholder={'Email'}
                     {...formik.getFieldProps('email')}
                 />
                 {formik.touched.email &&
-                    formik.errors.email ? <div style={{ color: 'red' }}>{formik.errors.email}</div> : null}
+                formik.errors.email ? <div style={{color: 'red'}}>{formik.errors.email}</div> : null}
                 <SuperInputText
                     type={'password'}
                     placeholder={'Password'}
                     {...formik.getFieldProps('password')}
                 />
                 {formik.touched.password &&
-                    formik.errors.password ? <div style={{ color: 'red' }}>{formik.errors.password}</div> : null}
+                formik.errors.password ? <div style={{color: 'red'}}>{formik.errors.password}</div> : null}
                 <SuperInputText
                     type={'password'}
                     placeholder={'Password'}
@@ -82,7 +81,10 @@ export const Registration = () => {
                 />
                 {formik.touched.checkPassword &&
                     formik.errors.checkPassword ? <div style={{ color: 'red' }}>{formik.errors.checkPassword}</div> : null}
-                <SuperButton type={'submit'} title={'sign up'} />
+                <div>
+                    {isLoading === 'loading' ? <Preloader /> : <SuperButton type={'submit'} title={'sign up'} />}
+                </div>
+
             </form>
         </div>
     )

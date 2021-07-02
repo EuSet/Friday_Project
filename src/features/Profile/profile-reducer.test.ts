@@ -1,5 +1,5 @@
 import {ProfileInitialStateType, profileReducer, setAuthData} from "./profile-reducer";
-import {authResponseType} from "../../components/main/login/resetPasswordApi";
+import {authResponseType} from "../../api/resetPasswordApi";
 
 let initialState:ProfileInitialStateType;
 beforeEach(() => {
