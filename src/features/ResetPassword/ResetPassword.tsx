@@ -10,6 +10,7 @@ import {CheckEmail} from "../../components/common/CheckEmailComponent/CheckEmail
 import {errorSpan} from "../../components/common/utills/SpanError";
 import r from "./ResetPassword.module.css"
 import {Preloader} from "../../components/common/preloader/Preloader";
+import {emailValidation} from "../../components/common/utills/Validation";
 
 
 type FormErrorType = {
@@ -31,11 +32,8 @@ export const ResetPassword = () => {
         },
         validate:(values) => {
             const errors: FormErrorType = {}
-            if (!values.email) {
-                errors.email = 'Required';
-            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-                errors.email = 'Invalid email address'
-            }
+            let errorEmail = emailValidation(values, errors.email)
+            errorEmail && (errors.email = errorEmail)
             return errors
         },
         onSubmit: values => {

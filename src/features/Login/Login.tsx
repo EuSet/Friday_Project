@@ -11,6 +11,7 @@ import SuperInputText from "../../components/common/c1-SuperInputText/SuperInput
 import SuperCheckbox from "../../components/common/c3-SuperCheckbox/SuperCheckbox";
 import {Preloader} from "../../components/common/preloader/Preloader";
 import SuperButton from "../../components/common/c2-SuperButton/SuperButton";
+import {emailValidation, passwordValidation} from "../../components/common/utills/Validation";
 
 
 type FormErrorType = {
@@ -34,16 +35,10 @@ export const Login = () => {
         },
         validate: (values) => {
             const errors: FormErrorType = {};
-            if (!values.email) {
-                errors.email = 'Required';
-            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-                errors.email = 'Invalid email address'
-            }
-            if (!values.password) {
-                errors.password = 'Required';
-            } else if (values.password.length < 7) {
-                errors.password = 'Must be 7 characters at least';
-            }
+            const errorEmail = emailValidation(values, errors.email)
+            errorEmail && (errors.email = errorEmail)
+            const errorPass = passwordValidation(values, errors.password)
+            errorPass && (errors.password = errorPass)
             return errors;
         },
         onSubmit: values => {
@@ -67,7 +62,7 @@ export const Login = () => {
                 <div>
                     <h3>Sign In</h3>
                 </div>
-                <form action="">
+                <form onSubmit={formik.handleSubmit}>
                     <div>
                         <span>Email</span>
                         {formik.errors.email ? errorSpan(formik.errors.email) : error && errorSpan(error)}

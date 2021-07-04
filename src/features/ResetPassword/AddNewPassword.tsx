@@ -9,6 +9,7 @@ import {useCleanUp} from "../../components/common/utills/CustomHook";
 import {useFormik} from "formik";
 import {errorSpan} from "../../components/common/utills/SpanError";
 import {Preloader} from "../../components/common/preloader/Preloader";
+import {passwordValidation} from "../../components/common/utills/Validation";
 
 type FormErrorType = {
     password?:string
@@ -27,12 +28,9 @@ export const AddNewPassword = () => {
             password:''
         },
         validate:(values) => {
-            const errors: FormErrorType = {}
-            if (!values.password) {
-                errors.password = 'Required';
-            } else if (values.password.length < 7) {
-                errors.password = 'Must be 7 characters at least';
-            }
+            let errors: FormErrorType = {}
+            const errorPass = passwordValidation(values, errors.password)
+            errorPass && (errors.password = errorPass)
             return errors;
         },
         onSubmit: values => {

@@ -25,5 +25,5 @@ export const passwordValidation = (values: FormErrorType, password: string | und
     } else if (values.password.length < 7) {
         password = 'Must be 7 characters at least';
     }
-    return password
+        return password
 }
