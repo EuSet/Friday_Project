@@ -1,6 +1,6 @@
-import r from "../../../features/ResetPassword/ResetPassword.module.css";
+import c from "../../common/commonStyle/commonStyle.module.css";
 import React from "react";
 
 export const errorSpan = (error:string) => {
-    return <span className={r.error}>{error}</span>
+    return <span className={c.error}>{error}</span>
 }

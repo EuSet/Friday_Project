@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Redirect} from "react-router-dom";
+import {NavLink, Redirect} from "react-router-dom";
 import {RoutePath} from "../../components/main/main";
 import {useCleanUp} from "../../components/common/utills/CustomHook";
 import {AppRootState} from "../../app/store";
@@ -8,9 +8,12 @@ import {forgotPasswordThunk, isSentInstructions, setError} from "./reset-reducer
 import {useFormik} from "formik";
 import {CheckEmail} from "../../components/common/CheckEmailComponent/CheckEmail";
 import {errorSpan} from "../../components/common/utills/SpanError";
-import r from "./ResetPassword.module.css"
+
 import {Preloader} from "../../components/common/preloader/Preloader";
 import {emailValidation} from "../../components/common/utills/Validation";
+import c from '../../components/common/commonStyle/commonStyle.module.css'
+import SuperInputText from "../../components/common/c1-SuperInputText/SuperInputText";
+import SuperButton from "../../components/common/c2-SuperButton/SuperButton";
 
 
 type FormErrorType = {
@@ -21,7 +24,6 @@ export const ResetPassword = () => {
     const isSent = useSelector<AppRootState, boolean>(state => state.reset.isSent)
     const error = useSelector<AppRootState, string>(state => state.reset.error)
     const isLoader = useSelector<AppRootState, boolean>(state => state.reset.isLoader)
-    const [remember, setRemember] = useState(false)
     const [email, setEmail] = useState('')
     useCleanUp(setError({error:''}))
     useCleanUp(isSentInstructions({isSent:false}))
@@ -43,41 +45,34 @@ export const ResetPassword = () => {
 
         }
     })
-
-    if (remember) {
-        return <Redirect to={RoutePath.LOGIN} />
-    }
     if (isSent) {
         return <CheckEmail email={email}/>
     }
 
-    return <div className={r.container}>
-        <div className={r.main}>
+    return <div className={c.wrap}>
+        <div className={c.formBlock}>
             <h3>Forgot your password?</h3>
             <form onSubmit={formik.handleSubmit}>
             {formik.errors.email ? errorSpan(formik.errors.email) : error && errorSpan(error)}
-            <input
+            <SuperInputText
                 {...formik.getFieldProps('email')}
                 placeholder={'email'}/>
-            <div className={r.textWrap}>
-        <span>Enter your email address and we willsend you
+            <div className={c.textWrap}>
+        <span>Enter your email address and we will send you
         further instructions</span>
             </div>
-            <div className={r.btnWrap}>
+            <div>
                 {isLoader ? <div><Preloader/></div> :
-                    <button><span>Send instructions</span></button>
+                    <SuperButton title={'Send instructions'}/>
                 }
             </div>
-            <div className={r.footer}>
-                <div className={r.textWrap}>
+
+                <div className={c.textWrap}>
                     <span>Did you remember your password?</span><br/>
                 </div>
-                <div className={r.btnFooterWrap}>
-                    <button onClick={() => {
-                        setRemember(true)
-                    }}><span>Try logging in</span>
-                    </button>
-                </div>
+                <div>
+                    <NavLink to={RoutePath.LOGIN}>Try logging in</NavLink>
+
             </div>
             </form>
         </div>

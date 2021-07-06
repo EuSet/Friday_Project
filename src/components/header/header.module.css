@@ -1,3 +1,42 @@
-.header{
+/*.header{
     padding: 10px;
+}*/
+
+.header {
+    border-bottom: 1px solid #cdcaca;
+    background-color: #EBE0E9;
+    font-family: Poppins;
+}
+
+.header a {
+    display: inline-block;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 25px;
+    padding: 15px 20px;
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    transition: 0.4s ease-in-out;
+}
+
+.menu {
+    color: #2D2E46;
+    letter-spacing: 1px;
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+}
+
+.menu:hover {
+    border-bottom: 1px solid #2D2E46;
+    border-top: 1px solid #2D2E46;
+}
+
+@media only screen and (max-width: 583px) {
+    .header a {
+       display: block;
+        margin: 0px 0px;
+    }
 }

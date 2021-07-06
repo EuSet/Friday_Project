@@ -1,4 +1,5 @@
 import React from "react";
+import c from '../../components/common/commonStyle/commonStyle.module.css'
 import s from "./Login.module.css"
 import {AppRootState} from "../../app/store";
 import {useDispatch, useSelector} from "react-redux";
@@ -12,6 +13,8 @@ import SuperCheckbox from "../../components/common/c3-SuperCheckbox/SuperCheckbo
 import {Preloader} from "../../components/common/preloader/Preloader";
 import SuperButton from "../../components/common/c2-SuperButton/SuperButton";
 import {emailValidation, passwordValidation} from "../../components/common/utills/Validation";
+import * as PATH from "path";
+import {RoutePath} from "../../components/main/main";
 
 
 type FormErrorType = {
@@ -50,35 +53,31 @@ export const Login = () => {
         },
     })
 
-    if (isLoggedIn) return <Redirect to={'/profile'}/>
+    if (isLoggedIn) return <Redirect to={RoutePath.PROFILE}/>
 
     return (
-        <div className={s.wrap}>
-            <div className={s.loginForm}>
-                <div>
-                    <h2>It-inkubator</h2>
-                </div>
+        <div className={c.wrap}>
+            <div className={c.formBlock}>
 
                 <div>
                     <h3>Sign In</h3>
                 </div>
                 <form onSubmit={formik.handleSubmit}>
-                    <div>
-                        <span>Email</span>
+
                         {formik.errors.email ? errorSpan(formik.errors.email) : error && errorSpan(error)}
-                        <SuperInputText
+                        <SuperInputText placeholder={'email'}
                             {...formik.getFieldProps('email')}
                         />
-                    </div>
+
                     <div>
-                        <span>Password</span>
+
                         {formik.errors.password ? errorSpan(formik.errors.password) : error && errorSpan(error)}
-                        <SuperInputText type={"password"}
+                        <SuperInputText type={"password"} placeholder={'password'}
                                         {...formik.getFieldProps('password')}
                         />
                     </div>
 
-                    <div>
+                    <div className={c.textWrap}>
                         <span>Remember me</span>
                         <SuperCheckbox
                             {...formik.getFieldProps('rememberMe')}
@@ -87,17 +86,18 @@ export const Login = () => {
                     <div className={s.forgotPassword}>
                         <NavLink to={'/resetpassword'}>Forgot Password?</NavLink>
                     </div>
-                    <div className={s.submitLogin}>
-                        {
-                            isLoading === 'loading' ? <Preloader/> :
+                    <div>
+                        {isLoading === 'loading' ? <Preloader/> :
                                 <SuperButton title={"Login"}/>
                         }
                     </div>
                 </form>
-                <div className={s.signUp}>
-                    <div>Don't have an account?</div>
-                    <NavLink to={'/registration'}>Sign Up</NavLink>
-                </div>
+
+                    <div className={c.textWrap}>
+                       <span>Don't have an account?</span>
+                    </div>
+                    <NavLink to={RoutePath.REGISTRATION}>Sign Up</NavLink>
+
             </div>
         </div>
     )

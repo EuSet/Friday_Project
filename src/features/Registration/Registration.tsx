@@ -10,6 +10,7 @@ import {RequestStatusType} from '../../app/app-reducer';
 import {Preloader} from '../../components/common/preloader/Preloader';
 import {signUp} from "./registration-reducer";
 import {checkPasswordValidation, emailValidation, passwordValidation} from "../../components/common/utills/Validation";
+import c from '../../components/common/commonStyle/commonStyle.module.css'
 
 
 export const Registration = () => {
@@ -49,8 +50,11 @@ export const Registration = () => {
     }
 
     return (
-        <div>
-            <form onSubmit={formik.handleSubmit}>
+        <div className={c.wrap}>
+            <form onSubmit={formik.handleSubmit} className={c.formBlock}>
+                <div>
+                    <h3>Registration</h3>
+                </div>
                 <SuperInputText
                     placeholder={'Email'}
                     {...formik.getFieldProps('email')}

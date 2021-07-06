@@ -7,6 +7,7 @@ import {getUserDataTC, logOutTC} from "../Login/login-reducer";
 import { RoutePath } from "../../components/main/main";
 import { RequestStatusType } from "../../app/app-reducer";
 import { Preloader } from "../../components/common/preloader/Preloader";
+import c from '../../components/common/commonStyle/commonStyle.module.css'
 
 export const Profile = () => {
     const dispatch = useDispatch()
@@ -23,12 +24,11 @@ export const Profile = () => {
     if (!isLoggedIn) return <Redirect to={RoutePath.LOGIN}/>
 
     return (
-        <div>
+        <div className={c.wrap}>
             Profile
             <div>
                 <img src={avatar}
-                     alt={"avatar"}
-                    />
+                     alt={"avatar"}/>
                 <div/>
             <div>{name}<div/>
                 <div>
