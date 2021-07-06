@@ -23,8 +23,8 @@ export const ResetPassword = () => {
     const isLoader = useSelector<AppRootState, boolean>(state => state.reset.isLoader)
     const [remember, setRemember] = useState(false)
     const [email, setEmail] = useState('')
-    useCleanUp(setError(''))
-    useCleanUp(isSentInstructions(false))
+    useCleanUp(setError({error:''}))
+    useCleanUp(isSentInstructions({isSent:false}))
 
     const formik = useFormik({
         initialValues:{

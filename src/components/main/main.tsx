@@ -1,12 +1,12 @@
-import { Login } from "../../features/Login/Login";
+import {Login} from "../../features/Login/Login";
 import React from "react";
-import { AddNewPassword } from "../../features/ResetPassword/AddNewPassword";
-import { Registration } from "../../features/Registration/Registration";
-import { ResetPassword } from "../../features/ResetPassword/ResetPassword";
-import { Profile } from "../../features/Profile/Profile";
-import { NotFound } from "./notFound";
-import { Redirect, Route, Switch } from "react-router-dom";
-import { Test } from "../test/test";
+import {AddNewPassword} from "../../features/ResetPassword/AddNewPassword";
+import {Registration} from "../../features/Registration/Registration";
+import {ResetPassword} from "../../features/ResetPassword/ResetPassword";
+import {Profile} from "../../features/Profile/Profile";
+import {NotFound} from "./notFound";
+import {Redirect, Route, Switch} from "react-router-dom";
+import {Find} from "../common/utills/find/Find";
 
 
 export const RoutePath = {
@@ -25,7 +25,7 @@ export const Main = () => {
             <Route path={RoutePath.RESET_PASSWORD} render={() => <ResetPassword />} />
             <Route path={RoutePath.SET_NEW_PASSWORD} render={() => <AddNewPassword />} />
             <Route path={RoutePath.PROFILE} render={() => <Profile />} />
-            <Route exact path={'/'} render={() => <Test />} />
+            <Route exact path={'/'} render={() => <Find />} />
             <Route path={'/404'} render={() => <NotFound />} />
             <Redirect from={'*'} to={'/404'} />
         </Switch>

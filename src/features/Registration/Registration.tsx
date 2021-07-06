@@ -8,7 +8,7 @@ import SuperButton from '../../components/common/c2-SuperButton/SuperButton';
 import {RoutePath} from '../../components/main/main';
 import {RequestStatusType} from '../../app/app-reducer';
 import {Preloader} from '../../components/common/preloader/Preloader';
-import {singUp} from "./registration-reducer";
+import {signUp} from "./registration-reducer";
 import {checkPasswordValidation, emailValidation, passwordValidation} from "../../components/common/utills/Validation";
 
 
@@ -53,7 +53,7 @@ export const Registration = () => {
         },
         onSubmit: values => {
             formik.resetForm()
-            dispatch(singUp(values.email, values.password))
+            dispatch(signUp({email:values.email, password: values.password}))
         },
     })
 

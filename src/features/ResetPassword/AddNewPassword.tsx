@@ -21,7 +21,7 @@ export const AddNewPassword = () => {
     const isLoader = useSelector<AppRootState, boolean>(state => state.reset.isLoader)
     const error = useSelector<AppRootState, string>(state => state.reset.error)
 
-   useCleanUp(setError(''))
+   useCleanUp(setError({error:''}))
 
     const formik = useFormik({
         initialValues:{
@@ -35,7 +35,7 @@ export const AddNewPassword = () => {
         },
         onSubmit: values => {
             formik.resetForm()
-            dispatch(createNewPasswordThunk(values.password, resetPasswordToken))
+            dispatch(createNewPasswordThunk({password:values.password, resetPasswordToken}))
         }
     })
 

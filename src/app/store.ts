@@ -1,22 +1,24 @@
-import {applyMiddleware, combineReducers, createStore} from "redux";
-import thunk, {ThunkAction} from "redux-thunk";
+import {combineReducers} from "redux";
+import thunk from "redux-thunk";
 import {authReducer} from "../features/Registration/registration-reducer";
-import {ProfileActionsType, profileReducer} from "../features/Profile/profile-reducer";
 import {loginReducer} from "../features/Login/login-reducer";
-import {ResetActionsType, resetReducer} from "../features/ResetPassword/reset-reducer";
-import { appReducer } from "./app-reducer";
+import {resetReducer} from "../features/ResetPassword/reset-reducer";
+import {appReducer} from "./app-reducer";
+import {packListReducer} from "../features/PackList/packlist-reducer";
+import {configureStore} from "@reduxjs/toolkit";
+
 
 const rootReducer = combineReducers({
     app: appReducer,
     auth: authReducer,
     login:loginReducer,
-    profile: profileReducer,
-    reset: resetReducer
+    reset: resetReducer,
+    packs: packListReducer
 })
 export type AppRootState = ReturnType<typeof rootReducer>
-export type AppActionsType = ResetActionsType | ProfileActionsType
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootState, unknown, AppActionsType>
-export const store = createStore(rootReducer, applyMiddleware(thunk))
+export const store = configureStore({
+    reducer:rootReducer,
+    middleware:(getDefaultMiddleware) => getDefaultMiddleware()
+        .prepend(thunk)
+})
 
-// @ts-ignore
-window.store = store

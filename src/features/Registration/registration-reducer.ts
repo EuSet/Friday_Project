@@ -1,61 +1,39 @@
-import { Dispatch } from 'redux'
-import { authAPI } from '../../api/registration-api'
-import { setAppStatusAC } from '../../app/app-reducer'
+import {authAPI} from '../../api/registration-api'
+import {setAppStatusAC} from '../../app/app-reducer'
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
-export const authActions = {
-  SIGN_UP: 'AUTH/SIGN_UP',
+const initialState = {
+    userRegistrationData: {
+        email: '',
+        password: ''
+    },
 }
+export const signUp = createAsyncThunk(
+    'auth/signUp',
+    async (params: { email: string, password: string }, {dispatch, rejectWithValue}) => {
+        try {
+            dispatch(setAppStatusAC({status: 'loading'}))
+            await authAPI.registration({email: params.email, password: params.password})
+            dispatch(setAppStatusAC({status: 'succeeded'}))
+            return {email: params.email, password: params.password}
+        } catch (e) {
+            dispatch(setAppStatusAC({status: 'failed'}))
+            return rejectWithValue('')
+        }
+    }
+)
+const authSlice = createSlice({
+    name: 'auth',
+    initialState,
+    reducers: {},
+    extraReducers: (builder) => {
+        builder.addCase(signUp.fulfilled, (state, action) => {
+            state.userRegistrationData = action.payload
+        })
+    }
+})
 
-export type AuthActionsType = signUpAT
-const initState = {
-  userRegistrationData: {
-    email: '',
-    password: '' 
-  },
-}
+export const authReducer = authSlice.reducer
 
-// types
-type signUpAT = ReturnType<typeof signUpAC>
-type AuthInitialStateType = typeof initState
 
-//
 
-export const authReducer = (
-  state: AuthInitialStateType = initState,
-  action: AuthActionsType
-): AuthInitialStateType => {
-  switch (action.type) {
-    case authActions.SIGN_UP:
-      return {
-        ...state,
-        userRegistrationData: {
-          email: action.email,
-          password: action.password,
-        },
-      }
-    default:
-      return state
-  }
-}
-
-export const signUpAC = (emailValue: string, passwordValue: string) =>
-  ({
-    type: authActions.SIGN_UP,
-    email: emailValue,
-    password: passwordValue,
-  } as const)
-
-export const singUp =
-  (email: string, password: string) => (dispatch: Dispatch) => {
-    dispatch(setAppStatusAC('loading'))
-    authAPI
-      .registration({ email, password })
-      .then(res => {
-        dispatch(signUpAC(email, password))
-        dispatch(setAppStatusAC('succeeded'))
-      })
-      .catch(error => {
-        dispatch(setAppStatusAC('failed'))
-        alert(error)
-      })
-  }

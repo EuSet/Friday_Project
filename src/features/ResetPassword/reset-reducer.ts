@@ -1,11 +1,6 @@
-import {AppThunk} from "../../app/store";
 import {resetPasswordApi} from "../../api/resetPasswordApi";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-
-const IS_SENT = 'reset/IS_SENT'
-const SET_ERROR = 'reset/SET_ERROR'
-const IS_CREATE_NEW_PASSWORD = 'reset/IS_CREATE_NEW_PASSWORD'
-const SET_LOADER = 'reset/SET_LOADER'
 
 type ResetInitialStateType = {
     isSent: boolean
@@ -13,58 +8,64 @@ type ResetInitialStateType = {
     isCreate: boolean
     isLoader: boolean
 }
-export type ResetActionsType = ReturnType<typeof isSentInstructions>
-    | ReturnType<typeof setError>
-    | ReturnType<typeof isCreateNewPassword>
-    | ReturnType<typeof setLoader>
-const initState: ResetInitialStateType = {
+const initialState: ResetInitialStateType = {
     isSent: false,
     error: '',
     isCreate: false,
     isLoader: false
 }
-export const resetReducer = (state: ResetInitialStateType = initState, action: ResetActionsType): ResetInitialStateType => {
-    switch (action.type) {
-        case "reset/IS_SENT":
-        case "reset/SET_ERROR":
-        case "reset/IS_CREATE_NEW_PASSWORD":
-        case "reset/SET_LOADER":
-            return {...state, ...action.payload}
-        default:
-            return state
-    }
-}
 
-export const isSentInstructions = (isSent: boolean) => {
-    return {type: IS_SENT, payload: {isSent: isSent}} as const
-}
-export const setError = (error: string) => {
-    return {type: SET_ERROR, payload: {error}} as const
-}
-export const setLoader = (isLoader: boolean) => {
-    return {type: SET_LOADER, payload: {isLoader}} as const
-}
-export const isCreateNewPassword = (isCreate: boolean) => {
-    return {type: IS_CREATE_NEW_PASSWORD, payload: {isCreate}} as const
-}
-export const forgotPasswordThunk = (email: string): AppThunk => async (dispatch) => {
-    try {
-        dispatch(setLoader(true))
-        await resetPasswordApi.sendInstructions(email)
-        dispatch(isSentInstructions(true))
-    } catch (e) {
-        dispatch(setError('something wrong'))
+export const forgotPasswordThunk = createAsyncThunk(
+    'reset/forgotPasswordThunk',
+    async (email: string, {dispatch, rejectWithValue}) => {
+        try {
+            dispatch(setLoader({isLoader:true}))
+            await resetPasswordApi.sendInstructions(email)
+            return {isSent: true}
+        } catch (e) {
+            dispatch(setError({error:'something wrong'}))
+            return rejectWithValue('')
+        } finally {
+            dispatch(setLoader({isLoader:false}))
+        }
     }
-    dispatch(setLoader(false))
-}
-export const createNewPasswordThunk = (password: string, resetPasswordToken: string)
-    : AppThunk => async (dispatch) => {
-    try {
-        dispatch(setLoader(true))
-        await resetPasswordApi.setNewPassword(password, resetPasswordToken)
-        dispatch(isCreateNewPassword(true))
-    } catch (e) {
-        dispatch(setError('something wrong'))
+)
+export const createNewPasswordThunk = createAsyncThunk(
+    'reset/createNewPasswordThunk',
+    async (params:{password: string, resetPasswordToken: string}, {dispatch, rejectWithValue}) => {
+        try {
+            dispatch(setLoader({isLoader:true}))
+            await resetPasswordApi.setNewPassword(params.password, params.resetPasswordToken)
+            return {isCreate:true}
+        } catch (e) {
+            dispatch(setError({error:'something wrong'}))
+            return rejectWithValue('')
+        }
+        finally {
+            dispatch(setLoader({isLoader:false}))
+        }
     }
-    dispatch(setLoader(false))
-}
+)
+const resetSlice = createSlice({
+    name: 'reset',
+    initialState,
+    reducers: {
+        setLoader(state, action:PayloadAction<{isLoader: boolean}>){
+            state.isLoader = action.payload.isLoader
+        },
+        setError(state, action:PayloadAction<{error:string}>){
+            state.error = action.payload.error
+        },
+        isSentInstructions(state, action:PayloadAction<{isSent:boolean}>){
+          state.isSent = action.payload.isSent
+        }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(forgotPasswordThunk.fulfilled, (state, action) => {
+            state.isSent = action.payload.isSent
+        })
+    }
+})
+export const resetReducer = resetSlice.reducer
+export const {setLoader, setError, isSentInstructions} = resetSlice.actions
+
