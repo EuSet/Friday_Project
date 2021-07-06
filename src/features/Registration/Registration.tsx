@@ -34,21 +34,6 @@ export const Registration = () => {
             errorEmail && (errors.email = errorEmail)
             const checkPassError = checkPasswordValidation(values, errors.checkPassword)
             checkPassError && (errors.checkPassword = checkPassError)
-            // if (!values.email) {
-            //     errors.email = 'Required';
-            // } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-            //     errors.email = 'Invalid email address'
-            // }
-            // if (!values.password) {
-            //     errors.password = 'Required';
-            // } else if (values.password.length < 7) {
-            //     errors.password = 'Must be 7 characters at least';
-            // }
-            // if (!values.checkPassword) {
-            //     errors.checkPassword = 'Required';
-            // } else if (values.checkPassword !== values.password) {
-            //     errors.checkPassword = 'Passwords should be equal';
-            // }
             return errors;
         },
         onSubmit: values => {
