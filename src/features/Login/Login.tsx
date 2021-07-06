@@ -13,7 +13,6 @@ import SuperCheckbox from "../../components/common/c3-SuperCheckbox/SuperCheckbo
 import {Preloader} from "../../components/common/preloader/Preloader";
 import SuperButton from "../../components/common/c2-SuperButton/SuperButton";
 import {emailValidation, passwordValidation} from "../../components/common/utills/Validation";
-import * as PATH from "path";
 import {RoutePath} from "../../components/main/main";
 
 
@@ -63,15 +62,15 @@ export const Login = () => {
                     <h3>Sign In</h3>
                 </div>
                 <form onSubmit={formik.handleSubmit}>
-
-                        {formik.errors.email ? errorSpan(formik.errors.email) : error && errorSpan(error)}
+                        {formik.errors.email && formik.touched.email ? errorSpan(formik.errors.email)
+                            : error && errorSpan(error)}
                         <SuperInputText placeholder={'email'}
                             {...formik.getFieldProps('email')}
                         />
-
                     <div>
 
-                        {formik.errors.password ? errorSpan(formik.errors.password) : error && errorSpan(error)}
+                        {formik.errors.password && formik.touched.password ? errorSpan(formik.errors.password)
+                            : error && errorSpan(error)}
                         <SuperInputText type={"password"} placeholder={'password'}
                                         {...formik.getFieldProps('password')}
                         />
