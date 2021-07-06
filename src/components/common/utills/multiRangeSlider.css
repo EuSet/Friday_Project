@@ -1,8 +1,5 @@
 .container {
-    height: 100vh;
     display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .slider {
@@ -30,13 +27,14 @@
 }
 
 .slider__range {
-    background-color: #9fe5e1;
+    background-color: #21268F;
     z-index: 2;
 }
 
 .slider__left-value,
 .slider__right-value {
-    color: #dee2e6;
+    color: #21268F;
+    font-weight: bold;
     font-size: 12px;
     margin-top: 20px;
 }
