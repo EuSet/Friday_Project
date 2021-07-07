@@ -10,6 +10,8 @@ export const Header = () => {
         <NavLink to={RoutePath.RESET_PASSWORD} className={h.menu}>Reset Password</NavLink>
         <NavLink to={RoutePath.SET_NEW_PASSWORD} className={h.menu}>new Password</NavLink>
         <NavLink to={RoutePath.PROFILE} className={h.menu}>Profile</NavLink>
+        <NavLink to={RoutePath.PACKS} className={h.menu}>Packs</NavLink>
+        <NavLink to={RoutePath.CARDS} className={h.menu}>Cards</NavLink>
         <NavLink to={'/'} className={h.menu}>Test</NavLink>
     </div>
 

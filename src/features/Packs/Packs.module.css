@@ -1,0 +1,35 @@
+.packs {
+    border: 1px solid;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.packsDate {
+    display: flex;
+    justify-content: space-between;
+    min-width: 750px;
+}
+
+.namePacks {
+    display: flex;
+    padding-left: 10px;
+    width: 150px;
+}
+
+.buttonBlock {
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 10px;
+}
+
+.blockDis {
+    display: flex;
+    width: 50%;
+    justify-content: space-between;
+}
+
+.headerDate {
+    min-width: 750px;
+}

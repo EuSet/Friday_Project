@@ -36,21 +36,44 @@ export type PackListType = {
     tokenDeathTime: number
 }
 export type sortPacksType = {
-    packName?:string
-    page?:number
-    user_id?:string
+    packName?: string
+    page?: number
+    user_id?: string
 }
-export let defaultSort:sortPacksType = {
-    packName:'',
-    page:1,
-    user_id:''
+export type postPackType = {
+    name: string
+    path: string
+}
+export let postPack = {
+    name: '',
+    path: '',
+}
+export let defaultSort: sortPacksType = {
+    packName: '',
+    page: 1,
+    user_id: ''
+}
+
+export type PostResponseType = {
+    newCardsPack: CardPacksType
 }
 export const packListApi = {
-    getPacks(sortData:sortPacksType){
+    getPacks(sortData: sortPacksType) {
         defaultSort = {...defaultSort, ...sortData}
         console.log(defaultSort)
         return instance.get<PackListType>
         (`cards/pack?packName=${defaultSort.packName}&page=${defaultSort.page}&pageCount=8&user_id=${defaultSort.user_id}`)
+    },
+    postPacks(cardsPack: postPackType) {
+        return instance.post<PostResponseType>
+        (`cards/pack`, {cardsPack})
+    },
+    deletePacks(id: string) {
+        return instance.delete<any>(`cards/pack?id=${id}`)
+    },
+    putPacks(sortData: sortPacksType) {
+        defaultSort = {...defaultSort, ...sortData}
+        return instance.put<any>(`cards/pack?${defaultSort.user_id}`)
     }
 }
 
