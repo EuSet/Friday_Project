@@ -26,7 +26,6 @@ export const Login = () => {
     const isLoading = useSelector<AppRootState, RequestStatusType>(state => state.app.status)
 
 
-
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -58,40 +57,34 @@ export const Login = () => {
                 <div>
                     <h2>It-inkubator</h2>
                 </div>
-
                 <div>
                     <h3>Sign In</h3>
                 </div>
                 <form onSubmit={formik.handleSubmit}>
                     <div>
                         <span>Email</span>
-                        {formik.errors.email ? errorSpan(formik.errors.email) : error && errorSpan(error)}
+                        {formik.errors.email && formik.touched.email ? errorSpan(formik.errors.email)
+                            : error && errorSpan(error)}
                         <SuperInputText
-                            {...formik.getFieldProps('email')}
-                        />
+                            {...formik.getFieldProps('email')}/>
                     </div>
                     <div>
                         <span>Password</span>
-                        {formik.errors.password ? errorSpan(formik.errors.password) : error && errorSpan(error)}
+                        {formik.errors.password && formik.touched.password ? errorSpan(formik.errors.password)
+                            : error && errorSpan(error)}
                         <SuperInputText type={"password"}
-                                        {...formik.getFieldProps('password')}
-                        />
+                                        {...formik.getFieldProps('password')}/>
                     </div>
-
                     <div>
                         <span>Remember me</span>
-                        <SuperCheckbox
-                            {...formik.getFieldProps('rememberMe')}
-                        />
+                        <SuperCheckbox{...formik.getFieldProps('rememberMe')}/>
                     </div>
                     <div className={s.forgotPassword}>
                         <NavLink to={'/resetpassword'}>Forgot Password?</NavLink>
                     </div>
                     <div className={s.submitLogin}>
-                        {
-                            isLoading === 'loading' ? <Preloader/> :
-                                <SuperButton title={"Login"}/>
-                        }
+                        {isLoading === 'loading' ? <Preloader/> :
+                            <SuperButton title={"Login"}/>}
                     </div>
                 </form>
                 <div className={s.signUp}>

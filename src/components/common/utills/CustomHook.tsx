@@ -5,7 +5,7 @@ export const useCleanUp =  (func: any ) => {
     const dispatch = useDispatch()
     const changeIsSent = useCallback(() => {
         dispatch(func)
-    }, [dispatch])
+    }, [dispatch, func])
 
     return useEffect(() => {
         return () => changeIsSent()
