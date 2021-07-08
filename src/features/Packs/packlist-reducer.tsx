@@ -1,4 +1,4 @@
-import {postPack, postPackType, packListApi, PackListType, sortPacksType} from "../../api/PackApi";
+import {packListApi, PackListType, postPackType, sortPacksType} from "../../api/PackApi";
 import {setError} from "../ResetPassword/reset-reducer";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
@@ -61,12 +61,8 @@ const packsSlice = createSlice({
         builder.addCase(addPackListThunk.fulfilled, (state, action) => {
             state.cardPacks.unshift(action.payload.packs)
         })
-        // builder.addCase(deletePackListThunk.fulfilled, (state, action) => {
-        //     state.cardPacks.filter(pack => pack._id !== action.payload.id)
-        // })
         builder.addCase(deletePackListThunk.fulfilled, (state, action) => {
-            const index = state.cardPacks.findIndex(pack => pack._id === action.payload.id)
-            state.cardPacks.slice(index, 1)
+           state.cardPacks = state.cardPacks.filter(p => p._id !== action.payload.id)
         })
     }
 })

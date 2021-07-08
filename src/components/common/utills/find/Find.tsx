@@ -2,10 +2,10 @@ import React, {useState} from "react";
 import {Paginator} from "../paginator/Paginator";
 import {CardPacksType} from "../../../../api/PackApi";
 import {useDispatch, useSelector} from "react-redux";
-import {getPackListThunk} from "../../../../features/PackList/packlist-reducer";
+import {getPackListThunk} from "../../../../features/Packs/packlist-reducer";
 import {AppRootState} from "../../../../app/store";
 import MultiRangeSlider from "../doubleSlider";
-
+//1qazxcvBG
 
 export const Find = () => {
     const [value, setValue] = useState('')

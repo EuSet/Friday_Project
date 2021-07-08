@@ -44,10 +44,6 @@ export type postPackType = {
     name: string
     path: string
 }
-export let postPack = {
-    name: '',
-    path: '',
-}
 export let defaultSort: sortPacksType = {
     packName: '',
     page: 1,

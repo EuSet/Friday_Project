@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../app/store";
-import {addPackListThunk, deletePackListThunk, getPackListThunk} from "../PackList/packlist-reducer";
+import {addPackListThunk, deletePackListThunk, getPackListThunk} from "./packlist-reducer";
 import {CardPacksType} from "../../api/PackApi";
 import style from './Packs.module.css'
 import {NavLink} from "react-router-dom";
@@ -49,21 +49,17 @@ export const Packs = () => {
                 <NavLink to={RoutePath.CARDS}>Cards</NavLink>
             </div>
         </div>)
-
     return (
         <div>
             <div className={style.headerDate}>
-
                 <span className={style.namePacks}>Name</span>
                 <span className={style.namePacks}>cardsCount</span>
-
                 <span>updated</span>
                 <span>url</span>
                 <button onClick={onButtonAddClick}>Add</button>
             </div>
             <div className={style.packs}>
                 {newCardPacks}
-
             </div>
         </div>
     )

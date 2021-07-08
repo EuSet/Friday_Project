@@ -2,7 +2,7 @@ import React from "react";
 import s from "./Paginator.module.css";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../../../app/store";
-import {getPackListThunk} from "../../../../features/PackList/packlist-reducer";
+import {getPackListThunk} from "../../../../features/Packs/packlist-reducer";
 
 
 export const Paginator = () => {
