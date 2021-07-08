@@ -1,5 +1,5 @@
 import {CardPacksType, PackListType} from "../../api/PackApi";
-import {deletePackListThunk, packListReducer} from "./packlist-reducer";
+import {deletePackThunk, packListReducer} from "./packlist-reducer";
 
 let initialState: PackListType
 let pack: CardPacksType
@@ -23,6 +23,7 @@ beforeEach(() => {
     }
     initialState = {
         cardPacks: [pack],
+        filteredPacks:[],
         cardPacksTotalCount: 0,
         maxCardsCount: 0,
         minCardsCount: 0,
@@ -33,7 +34,7 @@ beforeEach(() => {
     }
 })
 test('pack should be removed', () => {
-    const action = deletePackListThunk.fulfilled({id:'1234'}, '', '1234')
+    const action = deletePackThunk.fulfilled({id:'1234'}, '', '1234')
     const newState = packListReducer(initialState, action)
     console.log(newState.cardPacks)
     expect(newState.cardPacks.length).toBe(0)

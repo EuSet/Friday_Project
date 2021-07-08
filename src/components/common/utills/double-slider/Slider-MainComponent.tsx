@@ -1,7 +1,7 @@
 import React, {useCallback} from "react";
 import MultiRangeSlider from "./doubleSlider";
 import {useDispatch} from "react-redux";
-import { sortPacks } from "../../../../features/Packs/packlist-reducer";
+import {sortPacks} from "../../../../features/Packs/packlist-reducer";
 
 export const Slider = () => {
     const dispatch = useDispatch()

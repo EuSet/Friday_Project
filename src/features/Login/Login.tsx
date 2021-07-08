@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import c from '../../components/common/commonStyle/commonStyle.module.css'
 import s from "./Login.module.css"
 import {AppRootState} from "../../app/store";
@@ -14,6 +14,7 @@ import {Preloader} from "../../components/common/preloader/Preloader";
 import SuperButton from "../../components/common/c2-SuperButton/SuperButton";
 import {emailValidation, passwordValidation} from "../../components/common/utills/Validation";
 import {RoutePath} from "../../components/main/main";
+import { setError } from "../ResetPassword/reset-reducer";
 
 
 type FormErrorType = {
@@ -23,11 +24,12 @@ type FormErrorType = {
 }
 export const Login = () => {
     const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(setError({error:''}))
+    }, [dispatch])
     const error = useSelector<AppRootState, string>(state => state.reset.error)
     const isLoggedIn = useSelector<AppRootState, boolean>(state => state.login.isLoggedIn)
     const isLoading = useSelector<AppRootState, RequestStatusType>(state => state.app.status)
-
-
 
     const formik = useFormik({
         initialValues: {

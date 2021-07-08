@@ -12,7 +12,7 @@ const initialState: PackListType = {
     page: 0,
     pageCount: 0,
     token: '',
-    tokenDeathTime: 0
+    tokenDeathTime: 0,
 }
 
 export const getPackListThunk = createAsyncThunk(
@@ -39,8 +39,8 @@ export const addPackListThunk = createAsyncThunk(
         }
     }
 )
-export const deletePackListThunk = createAsyncThunk(
-    'pack/deletePackListThunk',
+export const deletePackThunk = createAsyncThunk(
+    'pack/deletePacThunk',
     async (id: string, {dispatch, rejectWithValue}) => {
         try {
             await packListApi.deletePacks(id)
@@ -51,6 +51,19 @@ export const deletePackListThunk = createAsyncThunk(
         }
     }
 )
+export const updatePackThunk = createAsyncThunk(
+    'pack/updatePackThunk',
+    async (params:{id: string, name:string}, {dispatch, rejectWithValue}) => {
+        try {
+            await packListApi.putPacks(params)
+            return {params}
+        } catch (e) {
+            dispatch(setError({error: 'something wrong'}))
+            return rejectWithValue('')
+        }
+    }
+)
+
 const packsSlice = createSlice({
     name: 'packs',
     initialState,
@@ -58,17 +71,28 @@ const packsSlice = createSlice({
         sortPacks(state, action:PayloadAction<{min:number, max:number}>){
             state.filteredPacks = state.cardPacks.filter(p =>
                 p.cardsCount >= action.payload.min && p.cardsCount <= action.payload.max)
+            state.minCardsCount = action.payload.min
+            state.maxCardsCount = action.payload.max
         }
     },
     extraReducers: (builder) => {
         builder.addCase(getPackListThunk.fulfilled, (state, action) => {
-            return {...state, ...action.payload.packs}
+            const copyAction = {...action.payload.packs, minCardsCount:state.minCardsCount, maxCardsCount: state.maxCardsCount }
+            return {...state, ...copyAction,
+                filteredPacks:action.payload.packs.cardPacks
+                    .filter(p => p.cardsCount >= state.minCardsCount && p.cardsCount <= state.maxCardsCount)}
         })
         builder.addCase(addPackListThunk.fulfilled, (state, action) => {
             state.cardPacks.unshift(action.payload.packs)
+            state.filteredPacks = state.cardPacks
         })
-        builder.addCase(deletePackListThunk.fulfilled, (state, action) => {
+        builder.addCase(deletePackThunk.fulfilled, (state, action) => {
            state.cardPacks = state.cardPacks.filter(p => p._id !== action.payload.id)
+            state.filteredPacks = state.cardPacks
+        })
+        builder.addCase(updatePackThunk.fulfilled, (state, action) => {
+            state.cardPacks = state.cardPacks.map(p => p._id === action.payload.params.id ? {...p, name:action.payload.params.name} : p)
+            state.filteredPacks = state.cardPacks
         })
     }
 })

@@ -9,5 +9,5 @@ export const useCleanUp =  (func: any ) => {
 
     return useEffect(() => {
         return () => changeIsSent()
-    }, [changeIsSent])
+    }, [changeIsSent, func])
 }

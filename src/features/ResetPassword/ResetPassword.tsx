@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {NavLink, Redirect} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import {RoutePath} from "../../components/main/main";
 import {useCleanUp} from "../../components/common/utills/CustomHook";
 import {AppRootState} from "../../app/store";

@@ -40,6 +40,8 @@ export type sortPacksType = {
     packName?: string
     page?: number
     user_id?: string
+    min?: number
+    max?:number
 }
 export type postPackType = {
     name: string
@@ -48,7 +50,9 @@ export type postPackType = {
 export let defaultSort: sortPacksType = {
     packName: '',
     page: 1,
-    user_id: ''
+    user_id: '',
+    min: 0,
+    max:100
 }
 
 export type PostResponseType = {
@@ -57,20 +61,18 @@ export type PostResponseType = {
 export const packListApi = {
     getPacks(sortData: sortPacksType) {
         defaultSort = {...defaultSort, ...sortData}
-        console.log(defaultSort)
         return instance.get<PackListType>
-        (`cards/pack?packName=${defaultSort.packName}&page=${defaultSort.page}&pageCount=8&user_id=${defaultSort.user_id}`)
+        (`cards/pack?packName=${defaultSort.packName}&page=${defaultSort.page}&pageCount=8&user_id=${defaultSort.user_id}&min=${defaultSort.min}&max=${defaultSort.max}`)
     },
     postPacks(cardsPack: postPackType) {
         return instance.post<PostResponseType>
         (`cards/pack`, {cardsPack})
     },
-    deletePacks(id: string) {
-        return instance.delete<any>(`cards/pack?id=${id}`)
+    deletePacks(id:string) {
+        return instance.delete(`cards/pack?id=${id}`)
     },
-    putPacks(sortData: sortPacksType) {
-        defaultSort = {...defaultSort, ...sortData}
-        return instance.put<any>(`cards/pack?${defaultSort.user_id}`)
+    putPacks(cardsPack:{id: string, name:string}) {
+        return instance.put<PostResponseType>(`cards/pack`, {cardsPack})
     }
 }
 

@@ -9,6 +9,8 @@ export const Paginator = () => {
     const pageSize = useSelector<AppRootState, number>(state => state.packs.pageCount)
     const currentPage = useSelector<AppRootState, number>(state => state.packs.page)
     const totalCount = useSelector<AppRootState, number>(state => state.packs.cardPacksTotalCount)
+    const minCardsCount = useSelector<AppRootState, number>(state => state.packs.minCardsCount)
+    const maxCardsCount = useSelector<AppRootState, number>(state => state.packs.maxCardsCount)
     const dispatch = useDispatch()
     let pageCount = Math.ceil(totalCount / pageSize)
     let pages: Array<number> = []
@@ -19,7 +21,7 @@ export const Paginator = () => {
         {currentPage > 2 && <span onClick={() => dispatch(getPackListThunk({page:1}))}>{pages[0]}...</span>}
         {pages.map(p => {
             return currentPage + 2 > p && currentPage - 2 < p ?
-                <span key={p} onClick={() => dispatch(getPackListThunk({page:p}))}
+                <span key={p} onClick={() => dispatch(getPackListThunk({page:p, min:minCardsCount, max:maxCardsCount}))}
                       className={currentPage === p ? s.currentPage : ''}>{p} </span> : ''
         })}
         {currentPage < (pages.length - 1) &&
