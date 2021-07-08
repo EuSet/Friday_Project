@@ -1,11 +1,4 @@
-import React, {
-    ChangeEvent,
-    FC,
-    useCallback,
-    useEffect,
-    useState,
-    useRef
-} from "react";
+import React, {ChangeEvent, FC, useCallback, useEffect, useRef, useState} from "react";
 import "./multiRangeSlider.css";
 
 interface MultiRangeSliderProps {
@@ -24,7 +17,6 @@ const MultiRangeSlider: FC<MultiRangeSliderProps> = ({
     const minValRef = useRef(min);
     const maxValRef = useRef(max);
     const range = useRef<HTMLDivElement>(null);
-
     // Convert to percentage
     const getPercent = useCallback(
         (value: number) => Math.round(((value - min) / (max - min)) * 100),
