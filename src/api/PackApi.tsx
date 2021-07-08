@@ -27,6 +27,7 @@ export type CardPacksType = {
 }
 export type PackListType = {
     cardPacks: Array<CardPacksType>
+    filteredPacks: Array<CardPacksType>
     cardPacksTotalCount: number
     maxCardsCount: number
     minCardsCount: number

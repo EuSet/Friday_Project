@@ -1,7 +1,7 @@
 import React, {useCallback} from "react";
 import MultiRangeSlider from "./doubleSlider";
 import {useDispatch} from "react-redux";
-import {sortPacks} from "../../../../features/PackList/packlist-reducer";
+import { sortPacks } from "../../../../features/Packs/packlist-reducer";
 
 export const Slider = () => {
     const dispatch = useDispatch()
@@ -13,9 +13,6 @@ export const Slider = () => {
             min={0}
             max={100}
             onChange={onChangeWithUseCallBack}
-            // onChange={({min, max}: { min: number; max: number }) => {
-            //     dispatch(sortPacks({min, max}))
-            // }}
         />
     </div>
 }

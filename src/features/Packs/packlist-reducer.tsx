@@ -1,10 +1,11 @@
 import {packListApi, PackListType, postPackType, sortPacksType} from "../../api/PackApi";
 import {setError} from "../ResetPassword/reset-reducer";
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 
 const initialState: PackListType = {
     cardPacks: [],
+    filteredPacks: [],
     cardPacksTotalCount: 0,
     maxCardsCount: 0,
     minCardsCount: 0,
@@ -53,7 +54,12 @@ export const deletePackListThunk = createAsyncThunk(
 const packsSlice = createSlice({
     name: 'packs',
     initialState,
-    reducers: {},
+    reducers: {
+        sortPacks(state, action:PayloadAction<{min:number, max:number}>){
+            state.filteredPacks = state.cardPacks.filter(p =>
+                p.cardsCount >= action.payload.min && p.cardsCount <= action.payload.max)
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(getPackListThunk.fulfilled, (state, action) => {
             return {...state, ...action.payload.packs}
@@ -67,6 +73,6 @@ const packsSlice = createSlice({
     }
 })
 export const packListReducer = packsSlice.reducer
-
+export const {sortPacks} = packsSlice.actions
 
 
