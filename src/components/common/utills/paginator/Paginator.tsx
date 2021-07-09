@@ -17,7 +17,7 @@ export const Paginator = () => {
     for (let i = 1; i <= pageCount; i++) {
         pages = [...pages, i]
     }
-    return  <div>
+    return  <div className={s.pagination}>
         {currentPage > 2 && <span onClick={() => dispatch(getPackListThunk({page:1}))}>{pages[0]}...</span>}
         {pages.map(p => {
             return currentPage + 2 > p && currentPage - 2 < p ?
