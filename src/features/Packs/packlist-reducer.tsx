@@ -22,7 +22,7 @@ export const getPackListThunk = createAsyncThunk(
             const res = await packListApi.getPacks(sortData)
             return {packs: res.data}
         } catch (e) {
-            dispatch(setError({error: 'something wrong'}))
+            dispatch(setError({error: ''}))
             return rejectWithValue('')
         }
     }

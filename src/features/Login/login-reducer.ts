@@ -1,6 +1,6 @@
 import {setAppStatusAC} from '../../app/app-reducer';
 import {authApi} from "../../api/loginApi";
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 
 const initialState = {
@@ -36,6 +36,7 @@ export const loginTC = createAsyncThunk(
 export const logOutTC = createAsyncThunk(
     'login/logOutTC',
     async (param, {dispatch, rejectWithValue}) => {
+
         dispatch(setAppStatusAC({status: 'loading'}))
         try {
             await authApi.logOut()
@@ -49,10 +50,13 @@ export const logOutTC = createAsyncThunk(
 )
 export const getUserDataTC = createAsyncThunk(
     'login/getUserDataTC',
-    async (param, {rejectWithValue}) => {
+    async (param, {dispatch,rejectWithValue}) => {
         try {
             const res = await authApi.authMe()
-            return {userData:res.data, isLoggedIn:true}
+            let { _id, email, name, avatar } = res.data
+            dispatch(setUser({_id, email, name, avatar}))
+            return {isLoggedIn:true}
+            /*return {userData:res.data, isLoggedIn:true}*/
         } catch (e) {
             rejectWithValue('')
         }
@@ -62,7 +66,15 @@ export const getUserDataTC = createAsyncThunk(
 const loginSlice = createSlice({
     name:'login',
     initialState,
-    reducers:{},
+    reducers:{
+        setUser(state, action:PayloadAction<{_id: string, email: string, name: string, avatar: string}>){
+            state._id = action.payload._id
+            state.name = action.payload.name
+            state.avatar = action.payload.avatar
+            state.email = action.payload.email
+            state.isLoggedIn = true
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(loginTC.fulfilled, (state, action) => {
             return {...state, ...action.payload}
@@ -70,14 +82,14 @@ const loginSlice = createSlice({
         builder.addCase(logOutTC.fulfilled, (state, action) => {
             state.isLoggedIn = action.payload.isLoggedIn
         })
-        builder.addCase(getUserDataTC.fulfilled, (state, action) => {
+       /* builder.addCase(getUserDataTC.fulfilled, (state, action) => {
             return {...state, ...action.payload}
-        })
+        })*/
     }
 })
 
 export const loginReducer = loginSlice.reducer
-
+export const {setUser} = loginSlice.actions
 export type LoginParamsType = {
     email: string
     password: string

@@ -1,35 +1,104 @@
+
+
+.wrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #E6D4DE 0%, #9890C7 100%);
+    font-family: Poppins;
+}
+
+.packsCardBlock {
+    display: flex;
+
+    border-radius: 10px;
+    background-color: white;
+    margin: 30px 30px;
+}
+
+.leftBlock {
+    background-color: #ECECF9;
+    padding: 0px 20px ;
+    display: flex;
+    flex-direction: column;
+}
+
+.leftBlockButton button{
+    padding: 10px 30px;
+    margin: 10px 0px;
+
+}
+
+.leftBlock span {
+margin: 20px 0px;
+    font-size: 18px;
+}
+
+.rightBlock{
+    width: 80%;
+    margin: 25px;
+}
+
+.findBlock {
+    display: flex;
+    justify-content: space-between;
+}
+
+.findBlock button {
+    min-width: 100px;
+}
+
 .packs {
     border: 1px solid;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+
 }
 
 .packsDate {
     display: flex;
     justify-content: space-between;
-    min-width: 750px;
+    height: 50px;
+   /* min-width: 1000px;*/
 }
 
 .namePacks {
     display: flex;
+    align-items: center;
+    justify-content: center;
     padding-left: 10px;
     width: 150px;
 }
 
-.buttonBlock {
+/*.buttonBlock {
     width: 200px;
     display: flex;
     justify-content: space-between;
     padding-right: 10px;
+}*/
+
+.buttonBlock {
+    min-width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
 .blockDis {
     display: flex;
-    width: 50%;
+    width: 80%;
     justify-content: space-between;
 }
 
 .headerDate {
-    min-width: 750px;
+  /*  min-width: 750px;*/
+    display: flex;
+    justify-content: space-around;
+    height: 50px;
+    background: #F8F7FD;
+}
+
+.packsDate:nth-child(even) {
+    background: #F8F7FD;
 }

@@ -20,4 +20,5 @@ export const authApi = {
     authMe() {
         return instance.post<loginResponseType>(`auth/me`) // проверка на залогиненность
     }
+
 }
