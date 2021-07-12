@@ -3,10 +3,10 @@ import {AppRootState} from "../../app/store";
 import React, {useEffect} from "react";
 import {Redirect} from "react-router-dom";
 import SuperButton from "../../components/common/c2-SuperButton/SuperButton";
-import {getUserDataTC, loginResponseType, logOutTC} from "../Login/login-reducer";
-import { RoutePath } from "../../components/main/main";
-import { RequestStatusType } from "../../app/app-reducer";
-import { Preloader } from "../../components/common/preloader/Preloader";
+import {getUserDataTC, logOutTC} from "../Login/login-reducer";
+import {RoutePath} from "../../components/main/main";
+import {RequestStatusType} from "../../app/app-reducer";
+import {Preloader} from "../../components/common/preloader/Preloader";
 import c from '../../components/common/commonStyle/commonStyle.module.css'
 
 export const Profile = () => {
@@ -18,11 +18,11 @@ export const Profile = () => {
     const isLoading = useSelector<AppRootState, RequestStatusType>(state => state.app.status)
 
     useEffect(() => {
-
-        dispatch(getUserDataTC())
-
+        if (!isLoggedIn) {
+            dispatch(getUserDataTC())
+        }
     }, [dispatch])
-
+    if (isLoading === 'loading') return <Preloader/>
     if (!isLoggedIn) return <Redirect to={RoutePath.LOGIN}/>
 
     return (
@@ -32,19 +32,21 @@ export const Profile = () => {
             <div>
                 {avatar ? <img src={avatar} alt={"avatar"}/> : ""}
                 <div/>
-            <div>name :{name}<div/>
-                <div>email :{email}<div/>
-                <div>
-                    {
-                        isLoading === 'loading' ? <Preloader /> :
-                        <SuperButton  onClick={() => {
-                            dispatch(logOutTC())
-                        }} title={"logout"}/>
-                    }
+                <div>name :{name}
+                    <div/>
+                    <div>email :{email}
+                        <div/>
+                        <div>
+                            {
+                                isLoading === 'idle' ? <Preloader/> :
+                                    <SuperButton onClick={() => {
+                                        dispatch(logOutTC())
+                                    }} title={"logout"}/>
+                            }
+                        </div>
+                    </div>
                 </div>
-        </div>
             </div>
         </div>
-        </div>
-        )
+    )
 }

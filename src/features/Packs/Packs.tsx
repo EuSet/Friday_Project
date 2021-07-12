@@ -22,9 +22,9 @@ export const Packs = () => {
 
     const [text, setText] = useState('')
     useEffect(() => {
-        if (isLoggedIn) return
+        if (!isLoggedIn) return
        dispatch(getPackListThunk({}))
-    }, [isLoggedIn, dispatch])
+    }, [dispatch])
 
     const onButtonAddClick = () => {
         const obj = {

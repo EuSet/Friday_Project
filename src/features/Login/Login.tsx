@@ -14,7 +14,7 @@ import {Preloader} from "../../components/common/preloader/Preloader";
 import SuperButton from "../../components/common/c2-SuperButton/SuperButton";
 import {emailValidation, passwordValidation} from "../../components/common/utills/Validation";
 import {RoutePath} from "../../components/main/main";
-import { setError } from "../ResetPassword/reset-reducer";
+import {setError} from "../ResetPassword/reset-reducer";
 
 
 type FormErrorType = {
@@ -26,6 +26,9 @@ export const Login = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
+        if(!isLoggedIn){
+            dispatch(getUserDataTC())
+        }
         dispatch(setError({error:''}))
     }, [dispatch])
 
