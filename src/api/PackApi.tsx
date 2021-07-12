@@ -71,7 +71,7 @@ export const packListApi = {
     deletePacks(id:string) {
         return instance.delete(`cards/pack?id=${id}`)
     },
-    putPacks(cardsPack:{id: string, name:string}) {
+    putPacks(cardsPack:{_id: string, name:string}) {
         return instance.put<PostResponseType>(`cards/pack`, {cardsPack})
     }
 }

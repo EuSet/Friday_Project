@@ -53,7 +53,7 @@ export const deletePackThunk = createAsyncThunk(
 )
 export const updatePackThunk = createAsyncThunk(
     'pack/updatePackThunk',
-    async (params:{id: string, name:string}, {dispatch, rejectWithValue}) => {
+    async (params:{_id: string, name:string}, {dispatch, rejectWithValue}) => {
         try {
             await packListApi.putPacks(params)
             return {params}
@@ -78,9 +78,10 @@ const packsSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(getPackListThunk.fulfilled, (state, action) => {
             const copyAction = {...action.payload.packs, minCardsCount:state.minCardsCount, maxCardsCount: state.maxCardsCount }
-            return {...state, ...copyAction,
-                filteredPacks:action.payload.packs.cardPacks
-                    .filter(p => p.cardsCount >= state.minCardsCount && p.cardsCount <= state.maxCardsCount)}
+            return {
+                ...state, ...copyAction,
+                filteredPacks: action.payload.packs.cardPacks
+                .filter(p => p.cardsCount >= state.minCardsCount && p.cardsCount <= state.maxCardsCount)}
         })
         builder.addCase(addPackListThunk.fulfilled, (state, action) => {
             state.cardPacks.unshift(action.payload.packs)
@@ -91,7 +92,7 @@ const packsSlice = createSlice({
             state.filteredPacks = state.cardPacks
         })
         builder.addCase(updatePackThunk.fulfilled, (state, action) => {
-            state.cardPacks = state.cardPacks.map(p => p._id === action.payload.params.id ? {...p, name:action.payload.params.name} : p)
+            state.cardPacks = state.cardPacks.map(p => p._id === action.payload.params._id ? {...p, name:action.payload.params.name} : p)
             state.filteredPacks = state.cardPacks
         })
     }
