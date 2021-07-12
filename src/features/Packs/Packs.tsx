@@ -4,7 +4,7 @@ import {AppRootState} from "../../app/store";
 import {addPackListThunk, deletePackThunk, getPackListThunk} from "./packlist-reducer";
 import {CardPacksType} from "../../api/PackApi";
 import style from './Packs.module.css'
-import {NavLink} from "react-router-dom";
+import {NavLink, Redirect} from "react-router-dom";
 import {RoutePath} from "../../components/main/main";
 import {Find} from "../../components/common/utills/find/Find";
 import {Paginator} from "../../components/common/utills/paginator/Paginator";
@@ -12,6 +12,7 @@ import {Slider} from "../../components/common/utills/double-slider/Slider-MainCo
 import SuperButton from "../../components/common/c2-SuperButton/SuperButton";
 import {RequestStatusType} from "../../app/app-reducer";
 import {Preloader} from "../../components/common/preloader/Preloader";
+import {getUserDataTC} from "../Login/login-reducer";
 
 
 
@@ -19,10 +20,15 @@ export const Packs = () => {
     const dispatch = useDispatch()
     const filteredPacks = useSelector<AppRootState, CardPacksType[]>(state => state.packs.filteredPacks)
     const isLoading = useSelector<AppRootState, RequestStatusType>(state => state.app.status)
+    const isLoggedIn = useSelector<AppRootState, boolean>(state => state.login.isLoggedIn)
+
     const [text, setText] = useState('')
+
     useEffect(() => {
-        dispatch(getPackListThunk({}))
-    }, [dispatch])
+        if (isLoggedIn) return
+       dispatch(getPackListThunk({}))
+    }, [isLoggedIn, dispatch])
+
     const onButtonAddClick = () => {
         const obj = {
             name: text,
@@ -41,8 +47,8 @@ export const Packs = () => {
             <div className={style.blockDis}>
                 <span className={style.namePacks}>{k.name}</span>
                 <span className={style.namePacks}>{k.cardsCount}</span>
-                <span className={style.namePacks}>{'Time'}</span>
-                <span className={style.namePacks}>{'URL'}</span>
+                <span className={style.namePacks}>{k.updated}</span>
+                <span className={style.namePacks}>{k.created}</span>
             </div>
             <div className={style.buttonBlock}>
                 <button onClick={() => {
@@ -52,6 +58,14 @@ export const Packs = () => {
                 <NavLink to={RoutePath.CARDS}>Cards</NavLink>
             </div>
         </div>)
+
+
+  if (!isLoggedIn) {return <Redirect to={RoutePath.LOGIN}/>}
+
+
+    if (isLoading ==='loading'){
+        return <Preloader/>
+    }
     return (
         <div className={style.wrap}>
             <div className={style.packsCardBlock}>

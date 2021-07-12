@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useFormik} from "formik";
 import {RequestStatusType} from "../../app/app-reducer";
 import {NavLink, Redirect} from "react-router-dom";
-import {loginTC} from "./login-reducer";
+import {getUserDataTC, loginTC} from "./login-reducer";
 import {errorSpan} from "../../components/common/utills/SpanError";
 import SuperInputText from "../../components/common/c1-SuperInputText/SuperInputText";
 import SuperCheckbox from "../../components/common/c3-SuperCheckbox/SuperCheckbox";
@@ -24,9 +24,11 @@ type FormErrorType = {
 }
 export const Login = () => {
     const dispatch = useDispatch()
+
     useEffect(() => {
         dispatch(setError({error:''}))
     }, [dispatch])
+
     const error = useSelector<AppRootState, string>(state => state.reset.error)
     const isLoggedIn = useSelector<AppRootState, boolean>(state => state.login.isLoggedIn)
     const isLoading = useSelector<AppRootState, RequestStatusType>(state => state.app.status)
@@ -51,6 +53,7 @@ export const Login = () => {
             const rememberMe = values.rememberMe
             formik.resetForm()
             dispatch(loginTC({email, password, rememberMe}))
+
         },
     })
 
@@ -85,11 +88,11 @@ export const Login = () => {
                         />
                     </div>
                     <div className={s.forgotPassword}>
-                        <NavLink to={'/resetpassword'}>Forgot Password?</NavLink>
+                        <NavLink to={RoutePath.RESET_PASSWORD}>Forgot Password?</NavLink>
                     </div>
                     <div>
                         {isLoading === 'loading' ? <Preloader/> :
-                                <SuperButton title={"Login"}/>
+                                <SuperButton  title={"Login"} type={'submit'}/>
                         }
                     </div>
                 </form>
